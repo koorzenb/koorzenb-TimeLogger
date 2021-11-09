@@ -36,7 +36,6 @@ export class ViewModel {
         this.clickHandler = this._click.bind(this);
         registerEvent(addButton, "click", this.clickHandler);  
         this.showEntries();
-        unstash changes and fix jest
     }
 
    
