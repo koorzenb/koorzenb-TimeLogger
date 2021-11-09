@@ -1,0 +1,38 @@
+li {
+  list-style: none;
+  display: flex;
+  height: 3rem;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+li input {
+  display: flex;
+  justify-self: center;
+  cursor: pointer;
+  width: 2rem;
+  position: relative;
+  top: 1.4rem;
+}
+
+div.item-details {
+  height: 3rem;
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 1rem;
+  width: 100%;
+}
+
+p {
+  margin: 0;
+}
+p.item-description {
+  text-transform: capitalize;
+  height: 50%;
+  padding-top: 0.5rem;
+}
+
+p.item-date {
+  font-size: 0.8rem;
+  height: 50%;
+  color: dimgrey;
+}

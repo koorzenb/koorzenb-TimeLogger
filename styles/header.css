@@ -1,0 +1,33 @@
+:root {
+  --blue: rgb(62, 81, 182, 1);
+  --darkblue: rgb(49, 62, 162);
+}
+
+button#menu {
+  position: relative;
+  background-color: var(--blue);
+  border: none;
+}
+
+svg {
+  fill: white;
+  margin: 0 1rem;
+  padding-top: 0.45rem;
+}
+
+header {
+  height: 3rem;
+  display: flex;
+  color: white;
+  align-items: center;
+  background: var(--blue);
+  border-top: 1rem solid var(--darkblue);
+}
+
+header h2 {
+  margin: 0px;
+  font-weight: 400;
+  font-size: 1.2rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.5rem;
+}

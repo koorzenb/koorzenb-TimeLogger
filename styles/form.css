@@ -1,0 +1,95 @@
+/* Styling of form differs from Firefox and Chrome   */
+:root {
+  --buttonShadow: rgba(0, 0, 3, 0.17);
+  --inputShadow: rgba(17, 163, 189, 0.151);
+}
+
+form {
+  display: flex;
+  position: absolute;
+  right: 4rem;
+  bottom: 2rem;
+  height: 3rem;
+  width: 16rem;
+  flex-direction: row;
+}
+
+button#addItem {
+  position: relative;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  border: none;
+}
+
+button#addItem svg {
+  fill: var(--blue);
+  position: relative;
+  top: -12px;
+  left: -24px;
+}
+
+button#addItem:focus{
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0px 3px 10px 3px var(--buttonShadow);
+}
+
+button#addItem:hover{
+  cursor: pointer;
+  box-shadow: 0px 3px 10px 3px var(--buttonShadow);
+}
+
+button#addItem[hide]:hover {
+  cursor: default;
+}
+
+button#addItem:active {
+  background-color: var(--darkblue);
+  box-shadow: none;
+}
+
+input {
+  margin-right: 1rem;
+  border-radius: 15%/50%;
+  padding-left: 1rem;
+  border: 1px solid gray;
+}
+
+input#input-details::placeholder {
+  width: 50%;
+  color: lightsteelblue;
+}
+
+input#input-details {
+  border-radius: 2rem;
+  border: 1px solid lightgray;
+  padding-left: 1rem;
+  height: 100%;
+}
+
+input:focus {
+  outline: none;
+}
+
+input:active {
+  cursor: text;
+  box-shadow: 0px 3px 10px 3px var(--inputShadow);
+}
+
+input:hover {
+  box-shadow: 0px 3px 10px 3px var(--inputShadow);
+}
+
+[hide] {
+  opacity: 0;
+  cursor: default;
+}
+
+input:invalid {
+  border: 1px solid red;
+}
+input:invalid:focus {
+  box-shadow: 0px 3px 10px 3px rgba(221, 12, 64, 0.473);
+}
+
