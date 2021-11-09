@@ -87,9 +87,9 @@ export class DataHandler {
     }
 
     inflate(inputValue) {
-        const id = `${this.dt.day}${this.dt.month}${this.dt.year}`
+        const id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
+        
         return {inputValue, dt: this.dt, id};
-
         // {
         //     "day": "Monday",
         //     "id": "04102021",
