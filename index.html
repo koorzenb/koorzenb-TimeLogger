@@ -9,6 +9,18 @@
     <title>Time Logger</title>
 </head>
 <body>
+
+  <template id="task-item">
+    <li>
+        <input type="checkbox" />
+        <div class="item-details">
+            <p class="item-description">--details--</p>
+            <p class="item-date">--date--</p>
+            <!-- TODO: add hidden close and edit buttons -->
+        </div>
+    </li>
+  </template>
+
     <header>            
         <button id="menu" tabindex="0" aria-label="tasks-menu">
             <!-- button will not be used in this project -->
@@ -18,11 +30,11 @@
             <rect y="40" width="80" height="10"></rect>
             </svg>
         </button>
-        <h2 id="main-title">Tasks</h2>
+        <h2 id="main-title">TimeLogger</h2>
     </header>
 
     <main>
-      <h3 id="week-descriptor">Week number</h3>
+      <h3 id="week-descriptor">v1</h3>
 
       <ul>
         <!-- list of items to be inserted here -->
@@ -31,7 +43,7 @@
 
     <form id="add">
       <input
-      type="time"
+      type="text"
       required
       minlength="1"
       placeholder= "Starting time"

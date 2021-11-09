@@ -3,9 +3,7 @@ import { DataHandler } from "./dataHandler.js";
 export class ViewModel {
 
     constructor() {
-        this.initHandler = this.init.bind(this);
         this.init();
-        document.addEventListener('DOMContentLoaded', this.initHandler)
         console.log("viewModel started");
     }
 
@@ -28,14 +26,14 @@ export class ViewModel {
      */
     init() {
         const addButton = document.querySelector("#addItem");
-        this.itemsList = document.querySelector("ul");
+        this.itemsList = document.querySelector("main > ul");
         this.formInput = document.querySelector("form input");
         registerEvent(addButton, "click", this.clickHandler);
         this.dataHandler = new DataHandler;
-        this.itemTemplate = document.querySelector("template#item");
+        this.itemTemplate = document.querySelector("template#task-item");
         this.clickHandler = this._click.bind(this);
         registerEvent(addButton, "click", this.clickHandler);  
-        this.showEntries();
+        // this.showEntries();
     }
 
    
@@ -46,18 +44,9 @@ export class ViewModel {
         this.render(data);
     }
 
-    render(data) {
-        this.fragment = new DocumentFragment();
-        for (const entry of data.loggedTimes) {
-            this.modify(entry);
-        }
+    render() {
         this.itemsList.appendChild(this.fragment);
-        // TODO: add all checkbox listeners 
         this.fragment = null;
-        document.querySelector("#week-descriptor").innerText = `Week ${data.loggedTimes[0].dt.weekNumber}`; //TODO: use data-content
-        const startDate = data.loggedTimes[0].dt.toLocaleString({ month: 'short', day: '2-digit' });
-        const endDate = data.loggedTimes[6].dt.toLocaleString({ month: 'short', day: '2-digit' });
-        document.querySelector("#main-title").innerText = `${startDate} - ${endDate}`;
     }
 
     /**
@@ -74,10 +63,9 @@ export class ViewModel {
      */
     addItem(event) {
         event.preventDefault();
-        const entry = this.calculateHours(this.formInput.value);
-        const inflated = this.inflate(entry);
-        this.localStorage = entry;
+        const entry = this.dataHandler.inflate(this.formInput.value);
         this.modify(entry);
+        this.render()
         this.formInput.value = "";
 
 
@@ -99,32 +87,12 @@ export class ViewModel {
      * @returns 
      */
     modify(entry) {
+        this.fragment = new DocumentFragment();
         const clone = this.itemTemplate.content.cloneNode(true);
         const itemDescription = clone.querySelector(".item-description");
-        const loggedTimes = entry.loggedTimes;
+        const loggedTimes = entry.inputValue;
 
-        if (loggedTimes?.end != null || loggedTimes?.start == null || loggedTimes == null) {
-            let existingItem;
-            try {
-                existingItem = document.getElementById(`${id}`);
-            } catch (error) { }
-
-            if (existingItem) this.itemsList.removeChild(existingItem);
-        }
-
-        if (entry.loggedTimes?.difference != null) {
-            const item = document.getElementById(`${entry.id}`);
-            this.itemsList.removeChild(item);
-            itemDescription.innerText = `From ${entry.loggedTimes.start} - ${entry.loggedTimes.end} = ${entry.loggedTimes.difference} hours`;
-            this.formInput.setAttribute('placeholder', "Start time");
-            console.log("Times calculated");
-        } else if (entry.loggedTimes?.start != null){
-            itemDescription.innerText = `From ${entry.loggedTimes.start} until...`;
-            this.formInput.setAttribute('placeholder', "End time");
-            console.log("Start time saved");
-        } else {
-            itemDescription.innerText = `Nothing logged...`;
-        }
+        itemDescription.innerText = `${entry.inputValue}`;
 
         clone.querySelector(".item-date").innerText = entry.dt.toLocaleString({ weekday: 'long', month: 'short', day: '2-digit'});
         clone.querySelector("li").setAttribute("id", entry.id);
