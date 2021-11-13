@@ -33,7 +33,7 @@ export class ViewModel {
         this.itemTemplate = document.querySelector("template#task-item");
         this.clickHandler = this._click.bind(this);
         registerEvent(addButton, "click", this.clickHandler);  
-        // this.showEntries();
+        this.showEntries();
     }
 
    

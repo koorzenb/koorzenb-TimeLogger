@@ -16,11 +16,7 @@ describe("DataHandler tests", () => {
 
     afterEach(() => {
         dataHandler == null;
-    })
-
-    test("getEntry", () => {
-        expect(dataHandler.add(2,5)).toEqual(7)
-    })
+    });
 
     test("empty getEntry", () => {
 

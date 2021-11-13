@@ -1,37 +1,37 @@
 export class FileIO {
 
-    get localStorage() {
-        if (this._currentStorage == null) {
-            this._currentStorage = localStorage.getItem(this.entryDate)
-            this._currentStorage = JSON.parse(this._currentStorage);
-        }
-        return this._currentStorage == null ? {} : this._currentStorage
+    constructor(name) {
+        if (name == null) console.error("No name defined")
+        this.localStorageName = name
     }
 
-    set localStorage(newValue) {
-        // save by date
-        // {
-        //     lastsaved: "03102021",
-        //     entries: [
-        //         {
-        //             weekNumber: 50,
-        //             loggedTimes: [
-        //                 [
-        //                     {day: ...},
-        //                     {day: ...}
-        //                 ]
-        //             ]
-        //         }
-        //     ]
-        // }
+    get currentStorage() {
+        try {
+            this._currentStorage = localStorage.getItem(this.localStorageName);
+        } catch (error) {
+            this._currentStorage = {};
+        }
+
+        if (Object.keys(this._currentStorage).length != 0) {
+            JSON.parse(this._currentStorage)
+        } else { 
+            this.currentStorage = {};
+        }
+
+        return this._currentStorage;
+    }
+
+    set currentStorage(newValue) {
         this._currentStorage = newValue;
-        localStorage.setItem(this.entryDate, JSON.stringify(newValue));
+        localStorage.setItem(this.localStorageName, newValue);
     }
 
     saveToLocalStorage(newHours) {
-        // const currentStorage = localStorage.getItem(this.entryDate)
+        this.currentStorage = JSON.stringify(newHours);
+    }
 
-        this.localStorage.setItem(JSON.stringify(newHours));
+    loadFromLocalStorage() {
+        return this.currentStorage
     }
 
 }

@@ -21,10 +21,6 @@ export class DataHandler {
         return this._today !== temp ? temp : this._today;
     }
 
-    add(a,b){
-        return a + b;
-    }
-
      /**
      * @param weekNumber {number} - week number for entry to retrieve
      * @returns {Object} - list of entries for specified week number
@@ -35,12 +31,12 @@ export class DataHandler {
         let entry;
 
         if(weekNumber != null) {            
-            entry = this.fileIO.localStorage.filter(e => e.weekNumber === weekNumber) || this.initializeEmptyWeek();
+            entry = this.fileIO.currentStorage.filter(e => e.weekNumber === weekNumber) || this.initializeEmptyWeek();
 
             // this.removeEntryFromStorage(weekNumber);
         } else {
-            const length = Object.keys(this.fileIO.localStorage).length
-            let lastItem = length !== 0 ? this.fileIO.localStorage[length - 1] : {};  //TODO: Length == 0? lastItem == {} and contidition below falls ovr
+            const length = Object.keys(this.fileIO.currentStorage).length
+            let lastItem = length !== 0 ? this.fileIO.currentStorage[length - 1] : {};  //TODO: Length == 0? lastItem == {} and contidition below falls ovr
 
             // remove these 3 lines. Is handled by showEntries()
             if (lastItem == null || lastItem.weekNumber != thisWeek) {
@@ -100,7 +96,7 @@ export class DataHandler {
     }
 
     calculateHours(newValue) {
-        let loggedTimes = this.fileIO.localStorage.loggedTimes ?? {};
+        let loggedTimes = this.fileIO.currentStorage.loggedTimes ?? {};
 
         if (loggedTimes?.end != null || loggedTimes?.start == null || loggedTimes == null) {
             loggedTimes = {};
