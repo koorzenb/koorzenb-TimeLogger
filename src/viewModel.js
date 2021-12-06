@@ -45,7 +45,7 @@ export class ViewModel {
     }
 
     render() {
-        this.itemsList.appendChild(this.fragment);
+        // this.itemsList.appendChild(this.fragment);
         this.fragment = null;
     }
 

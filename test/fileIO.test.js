@@ -23,8 +23,8 @@ describe("FileIO tests", () => {
      */
     test('storage initializer', () => {
         // has week:0 and entries: empty
+    
         // expect(typeof storage).toEqual("object");
-
     });
 
     /**

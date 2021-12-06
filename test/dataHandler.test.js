@@ -49,5 +49,16 @@ describe("DataHandler tests", () => {
         //         }
         //     ]
         // }
-    })
+    });
+
+    test('Expect calcHours to return difference between start and end times ', () => {
+        const start = DateTime.fromObject({hour: 9});
+        const end = start.plus({hours: 3, minutes: 2});
+        const diff= end.diff(start)
+        expect(diff.values.milliseconds).toEqual(10920000);
+
+        const callDiff = dataHandler.calculateHours(start, end);
+        expect(callDiff).toEqual(10920000)
+    });
+
 })

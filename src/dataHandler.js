@@ -1,16 +1,16 @@
 import { Dates, DateType } from "./utils/enums.js";
 import { DateTime } from "./utils/luxon.js";
-import { FileIO } from "./fileIO.js";
+import { LoggerRepository } from "./loggerRepository.js";
 
 export class DataHandler {
 
     constructor() {
         console.log("dataHandler started");
         this.dt = new DateTime({});
-        this.fileIO = new FileIO();
+        this.loggerRepository = new LoggerRepository("timeLoggerData");
     }
 
-    get entryDate() {
+    get getTodayDate() {
         const temp = formattedDate();
         // check for null
         // check for new date
@@ -31,12 +31,12 @@ export class DataHandler {
         let entry;
 
         if(weekNumber != null) {            
-            entry = this.fileIO.currentStorage.filter(e => e.weekNumber === weekNumber) || this.initializeEmptyWeek();
+            entry = this.loggerRepository.storage.filter(e => e.weekNumber === weekNumber) || this.initializeEmptyWeek();
 
             // this.removeEntryFromStorage(weekNumber);
         } else {
-            const length = Object.keys(this.fileIO.currentStorage).length
-            let lastItem = length !== 0 ? this.fileIO.currentStorage[length - 1] : {};  //TODO: Length == 0? lastItem == {} and contidition below falls ovr
+            const length = Object.keys(this.loggerRepository.storage).length
+            let lastItem = length !== 0 ? this.loggerRepository.storage[length - 1] : {};  //TODO: Length == 0? lastItem == {} and contidition below falls ovr
 
             // remove these 3 lines. Is handled by showEntries()
             if (lastItem == null || lastItem.weekNumber != thisWeek) {
@@ -52,6 +52,7 @@ export class DataHandler {
 
     initializeEmptyWeek() {     //TODO: pass weekNumber to initialize //TODO: might be duplication of inflate()
         const enumDate = new Dates();
+
         const offset = this.dt.weekday - 1;   // days to substract so we start calc from Monday        
         let entry;
         const loggedTimes = [];
@@ -95,18 +96,13 @@ export class DataHandler {
         // }
     }
 
-    calculateHours(newValue) {
-        let loggedTimes = this.fileIO.currentStorage.loggedTimes ?? {};
-
-        if (loggedTimes?.end != null || loggedTimes?.start == null || loggedTimes == null) {
-            loggedTimes = {};
-            loggedTimes.start = parseInt(newValue);
-        } else if (loggedTimes?.start != null) {
-            loggedTimes.end = parseInt(newValue);
-            loggedTimes.difference = loggedTimes.end - loggedTimes.start;
-            console.log("End time saved");
-        }
-
-        return loggedTimes;
+    /**
+     * Calculcates the difference in time in milliseconds
+     * @param {DateTime} startValue 
+     * @param {DateTime} endValue 
+     * @returns 
+     */
+    calculateHours(startValue, endValue) {
+        return endValue.diff(startValue)
     }
 }
