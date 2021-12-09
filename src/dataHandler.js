@@ -104,14 +104,16 @@ export class DataHandler {
         };
     }
 
+    /**
+     * Create datasturcture of record to insert
+     * @returns {{id: `{number} id used by HTML`, day: "{string} name of weekday", startTime: number, endTime: number}}
+     */
     createRecord() {
         return {
-            weekNumber: this._startTime.dt.weekData.weekNumber,
             id: this._startTime.id,
-            loggedTimes: [
-                day: this._startTime.dt.
-            ]
-
+            day: this._startTime.dt.weekdayLong,
+            startTime: this._startTime,
+            endTime: this._endTime
         }
     }
 

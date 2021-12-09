@@ -1,4 +1,4 @@
-complete dataHandler.createRecord
+complete dataHandler.createRecord and save
 get date - if same just overwrite with new values for now
 get start time
     - handle validation with HTML validators

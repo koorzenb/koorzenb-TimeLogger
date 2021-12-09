@@ -78,7 +78,8 @@ export class ViewModel {
     addItem() {
         const input = this.dataHandler.inflate(this.formInput.value);
         if (this.dataHandler.assignEntry(input) === false) return;
-        const entry = this.dataHandler.createRecord();
+        const record = this.dataHandler.createRecord();
+        save(record)
         this.createTemplate(entry);
         this.render()
         this.formInput.value = "";
