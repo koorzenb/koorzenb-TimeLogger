@@ -17,7 +17,6 @@ export class LoggerRepository {
         } else if (Object.keys(this._storage).length != 0) {
             thisJSON.parse(this._storage)
         }
-        
 
         return this._storage;
     }

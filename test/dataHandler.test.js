@@ -32,7 +32,12 @@ describe("DataHandler tests", () => {
         expect(emptyWeek.weekNumber).toEqual(dateTime.weekNumber)
         expect(emptyWeek.loggedTimes.length).toEqual(7);
         expect(emptyWeek.loggedTimes[1].day).toBe("Tuesday");
+    });
 
+    /**
+     * Expects correct record structure to be returned
+     */
+    test("createRecord" , () => {
         // {
         //     weekNumber: x,
         //     loggedTimes: [
@@ -41,7 +46,10 @@ describe("DataHandler tests", () => {
         //             id: 12112021,
         //             dateTimeObj: dt,
         //             calendarDate: 21,
-        //             offset: currentDayNumberOfTheWeek - thisDayNumberOfTheWeek
+        //             offset: currentDayNumberOfTheWeek - thisDayNumberOfTheWeek,
+        //             startTime: 8,
+        //             endTime: 17
+        //
         //         }, 
         //         {
         //             day: Monday,
@@ -49,7 +57,32 @@ describe("DataHandler tests", () => {
         //         }
         //     ]
         // }
-    });
+
+        dataHandler._startTime = {
+            dt: {weekData: 
+                {
+                    weekNumber: 49
+                }
+            },
+            id: 9122021,
+            input: 8
+        }
+
+        dataHandler._endTime = {
+            dt: {},
+            id: 9122021,
+            input: 17
+        }
+
+        const record = dataHandler.createRecord()
+
+        expect(record.weekNumber).toEqual(49);
+        expect(record.loggedTimes).not.toEqual(null);
+        expect(Array.isArray(record.loggedTimes)).toEqual(true);
+        expect(record.loggedTimes[0]._startTime).toEqual(8)
+        expect(record.loggedTimes[0]._endTime).toEqual(17)
+
+    })
 
     test('Expect calcHours to return difference between start and end times ', () => {
         const start = DateTime.fromObject({hour: 9});
@@ -57,8 +90,7 @@ describe("DataHandler tests", () => {
         const diff= end.diff(start)
         expect(diff.values.milliseconds).toEqual(10920000);
 
-        const callDiff = dataHandler.calculateHours(start, end);
-        expect(callDiff).toEqual(10920000)
+        const callDiff = dataHandler.calculateHours(start, end).toString();
+        expect(callDiff).toMatch("PT10920S")
     });
-
 })

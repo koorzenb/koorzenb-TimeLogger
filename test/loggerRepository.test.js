@@ -1,8 +1,8 @@
 import { FileIO } from "../src/fileIO.js";
 
-describe("FileIO tests", () => {
-    let storage;
-    let fileIO
+describe("LoggerRepository tests", () => {
+    let mockStorage;
+    let fileIO;
 
     beforeAll(() => {
         // fileIO = new FileIO();

@@ -83,17 +83,46 @@ export class DataHandler {
 
     }
 
+    getStartTime() {
+        //waits on submission from input
+        //must be number
+        //save to localStorage
+    }
+
+    getEndTime() {
+
+    }
+
+    assignEntry(input) {
+        if (this._startTime == null) {
+            this._startTime = input;
+            return false;
+        };
+        if (this._endTime == null) {
+            this._endTime = input;
+            return true;    //meaning, both entries have been populated
+        };
+    }
+
+    createRecord() {
+        return {
+            weekNumber: this._startTime.dt.weekData.weekNumber,
+            id: this._startTime.id,
+            loggedTimes: [
+                day: this._startTime.dt.
+            ]
+
+        }
+    }
+
+    clearEntries() {
+        delete this._startTime;
+        delete this._endTime;
+    }
+
     inflate(inputValue) {
         const id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
-        
         return {inputValue, dt: this.dt, id};
-        // {
-        //     "day": "Monday",
-        //     "id": "04102021",
-        //     "dt": "2021-10-04T09:25:30.433+02:00",
-        //     "offsetDate": 4,
-        //     "offset": -4
-        // }
     }
 
     /**

@@ -8,7 +8,7 @@ export class ViewModel {
     }
 
     dispose() {
-        unregisterEvents(addButton, "click")
+        unregisterEvents(body, "click")
         delete this.clickHandler;
         delete this.itemTemplate;
         delete this.formInput;
@@ -25,14 +25,16 @@ export class ViewModel {
      * Initializes view model
      */
     init() {
-        const addButton = document.querySelector("#addItem");
+        const body = document.querySelector("body");
         this.itemsList = document.querySelector("main > ul");
         this.formInput = document.querySelector("form input");
-        registerEvent(addButton, "click", this.clickHandler);
+        registerEvent(body, "click", this.clickHandler);
+        registerEvent(body, "submit", this.submitHandler);
         this.dataHandler = new DataHandler;
         this.itemTemplate = document.querySelector("template#task-item");
         this.clickHandler = this._click.bind(this);
-        registerEvent(addButton, "click", this.clickHandler);  
+        this.submitHandler = this._submit.bind(this);
+        registerEvent(body, "click", this.clickHandler);  
         this.showEntries();
     }
 
@@ -54,19 +56,33 @@ export class ViewModel {
      * @param {*} event 
      */
     _click(event) {
-        if (event.currentTarget.id == "addItem") this.addItem(event);
+        event.preventDefault();
+        try {
+            this[`${event.target.id}`]();
+        } catch (error) { }
+    }
+
+    /**
+     * Handles submit event
+     * @param {*} event 
+     */
+    _submit(event) {
+        event.preventDefault();
+        this[`${event.target.id}`]();
     }
 
     /**
      * Adds an item to the DOM
      * @param {*} event 
      */
-    addItem(event) {
-        event.preventDefault();
-        const entry = this.dataHandler.inflate(this.formInput.value);
-        this.modify(entry);
+    addItem() {
+        const input = this.dataHandler.inflate(this.formInput.value);
+        if (this.dataHandler.assignEntry(input) === false) return;
+        const entry = this.dataHandler.createRecord();
+        this.createTemplate(entry);
         this.render()
         this.formInput.value = "";
+        this.dataHandler.clearEntries();
 
 
         // save in new format

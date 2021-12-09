@@ -1,6 +1,13 @@
+complete dataHandler.createRecord
 get date - if same just overwrite with new values for now
 get start time
+    - handle validation with HTML validators
+    - if no startProp, assign to start property
 get end time
+    - assign to end property
+    - process
+    - save to local
+    - add to DOM
 
 Change "Today" to "Week x: 31 July - 6 Aug"
 
