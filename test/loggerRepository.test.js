@@ -1,5 +1,3 @@
-import { FileIO } from "../src/fileIO.js";
-
 describe("LoggerRepository tests", () => {
     let mockStorage;
     let fileIO;
@@ -33,7 +31,6 @@ describe("LoggerRepository tests", () => {
     test('entry structure integrity', () => {
         // has desctipt and date
     });
-
 
     //save to array
     //save to localStorage: //TODO: send to webworker

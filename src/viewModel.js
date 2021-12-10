@@ -77,9 +77,10 @@ export class ViewModel {
      */
     addItem() {
         const input = this.dataHandler.inflate(this.formInput.value);
-        if (this.dataHandler.assignEntry(input) === false) return;
+        if (this.dataHandler.assignInput(input) === false) return;
         const record = this.dataHandler.createRecord();
-        save(record)
+        const weekTimes = this.dataHandler(this.dataHandler.assignRecord)
+        save(weekTimes);
         this.createTemplate(entry);
         this.render()
         this.formInput.value = "";

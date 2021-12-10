@@ -21,16 +21,16 @@ export class DataHandler {
         return this._today !== temp ? temp : this._today;
     }
 
-     /**
-     * @param weekNumber {number} - week number for entry to retrieve
-     * @returns {Object} - list of entries for specified week number
-     */
-      getEntry(weekNumber) {
+    /**
+    * @param weekNumber {number} - week number for entry to retrieve
+    * @returns {Object} - list of entries for specified week number
+    */
+    getEntry(weekNumber) {
         const thisWeek = this.dt.weekNumber;
         const loggedTimes = [];
         let entry;
 
-        if(weekNumber != null) {            
+        if (weekNumber != null) {
             entry = this.loggerRepository.storage.filter(e => e.weekNumber === weekNumber) || this.initializeEmptyWeek();
 
             // this.removeEntryFromStorage(weekNumber);
@@ -60,12 +60,12 @@ export class DataHandler {
         let count = 0;
         for (const day of DateType.WEEKDAY) {
             const localOffset = count - offset
-            const calendarDate = this.dt.plus({day : localOffset }).day;  // todayDate - offset - count
-            const paddedDate = calendarDate < 10 ? `0${calendarDate}` :  calendarDate;
+            const calendarDate = this.dt.plus({ day: localOffset }).day;  // todayDate - offset - count
+            const paddedDate = calendarDate < 10 ? `0${calendarDate}` : calendarDate;
             const item = {
                 day: `${enumDate.get(DateType.WEEKDAY, DateType.WEEKDAY.indexOf(day))}`,
                 id: `${paddedDate}${this.dt.month}${this.dt.year}`,
-                dt: DateTime.now().plus({day: localOffset}),
+                dt: DateTime.now().plus({ day: localOffset }),
                 calendarDate,
                 offset: localOffset
             }
@@ -93,30 +93,54 @@ export class DataHandler {
 
     }
 
-    assignEntry(input) {
+    assignInput(value) {
         if (this._startTime == null) {
-            this._startTime = input;
+            this._startTime = value;
             return false;
         };
         if (this._endTime == null) {
-            this._endTime = input;
+            this._endTime = value;
             return true;    //meaning, both entries have been populated
         };
     }
 
     /**
-     * Create datasturcture of record to insert
+     * Create datasturcture of record to insert into template
      * @returns {{id: `{number} id used by HTML`, day: "{string} name of weekday", startTime: number, endTime: number}}
      */
     createRecord() {
         return {
             id: this._startTime.id,
             day: this._startTime.dt.weekdayLong,
-            startTime: this._startTime,
-            endTime: this._endTime
+            startTime: this._startTime.inputValue,
+            endTime: this._endTime.inputValue
         }
     }
 
+    /**
+     * Assign record to a week and insert into loggedTimes and save to localStorage
+     * @param {obj} record 
+     */
+    assignRecord(record) {
+        const loggedTimes = [record];
+        //TODO: check for weekNumber if id exist on loggedTimes
+
+        return {
+            weekNumber: this._startTime.dt.weekData.weekNumber,
+            loggedTimes
+        }
+    }
+
+    /**
+     * Save record to local storage
+     */
+    saveRecord() {
+
+    }
+
+    /**
+     * Dispose session's values of start and end times  
+     */
     clearEntries() {
         delete this._startTime;
         delete this._endTime;
@@ -124,7 +148,7 @@ export class DataHandler {
 
     inflate(inputValue) {
         const id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
-        return {inputValue, dt: this.dt, id};
+        return { inputValue, dt: this.dt, id };
     }
 
     /**

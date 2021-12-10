@@ -12,6 +12,24 @@ describe("DataHandler tests", () => {
 
     beforeEach(() => {
         dataHandler = new DataHandler;
+
+        dataHandler._startTime = {
+            dt: {
+                weekData: 
+                    {
+                        weekNumber: 49
+                    },
+                weekdayLong: "Thursday"
+            },
+            id: 9122021,
+            inputValue: 8
+        }
+
+        dataHandler._endTime = {
+            dt: {},
+            id: 9122021,
+            inputValue: 17
+        }
     })
 
     afterEach(() => {
@@ -38,7 +56,17 @@ describe("DataHandler tests", () => {
      * Expects correct record structure to be returned
      */
     test("createRecord" , () => {
-        // {
+        const record = dataHandler.createRecord();
+        console.log(record);
+        console.log(dataHandler._startTime);
+        expect(typeof record.id === "number").toBe(true);
+        expect(record.day).toEqual("Thursday");
+        expect(record.startTime).toEqual(8);
+        expect(record.endTime).toEqual(17);
+    })
+    
+    test('assignRecord', () => {
+                // {
         //     weekNumber: x,
         //     loggedTimes: [
         //         {
@@ -58,31 +86,11 @@ describe("DataHandler tests", () => {
         //     ]
         // }
 
-        dataHandler._startTime = {
-            dt: {weekData: 
-                {
-                    weekNumber: 49
-                }
-            },
-            id: 9122021,
-            input: 8
-        }
-
-        dataHandler._endTime = {
-            dt: {},
-            id: 9122021,
-            input: 17
-        }
-
-        const record = dataHandler.createRecord()
-
-        expect(record.weekNumber).toEqual(49);
-        expect(record.loggedTimes).not.toEqual(null);
-        expect(Array.isArray(record.loggedTimes)).toEqual(true);
-        expect(record.loggedTimes[0]._startTime).toEqual(8)
-        expect(record.loggedTimes[0]._endTime).toEqual(17)
-
-    })
+        const record = dataHandler.assignRecord();
+        expect(record.weekNumber).toEqual(49)
+        expect(Array.isArray(record.loggedTimes)).toBe(true)
+        expect(record.loggedTimes).not.toEqual(null);        
+    });
 
     test('Expect calcHours to return difference between start and end times ', () => {
         const start = DateTime.fromObject({hour: 9});

@@ -1,7 +1,7 @@
 export class LoggerRepository {
 
     constructor(name) {
-        if (name == null) console.error("No name defined")
+        if (name == null) return console.error("No name defined")
         this.localStorageName = name
     }
 
