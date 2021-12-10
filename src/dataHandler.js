@@ -7,7 +7,6 @@ export class DataHandler {
     constructor() {
         console.log("dataHandler started");
         this.dt = new DateTime({});
-        this.loggerRepository = new LoggerRepository("timeLoggerData");
     }
 
     get getTodayDate() {
@@ -35,8 +34,9 @@ export class DataHandler {
 
             // this.removeEntryFromStorage(weekNumber);
         } else {
-            const length = Object.keys(this.loggerRepository.storage).length
-            let lastItem = length !== 0 ? this.loggerRepository.storage[length - 1] : {};  //TODO: Length == 0? lastItem == {} and contidition below falls ovr
+            //TODO: storage should be managed from elsewhere
+            const length = 1 // Object.keys(this.loggerRepository.storage).length
+            let lastItem = 1 // length !== 0 ? this.loggerRepository.storage[length - 1] : {};  //TODO: Length == 0? lastItem == {} and contidition below falls ovr
 
             // remove these 3 lines. Is handled by showEntries()
             if (lastItem == null || lastItem.weekNumber != thisWeek) {
@@ -129,13 +129,6 @@ export class DataHandler {
             weekNumber: this._startTime.dt.weekData.weekNumber,
             loggedTimes
         }
-    }
-
-    /**
-     * Save record to local storage
-     */
-    saveRecord() {
-
     }
 
     /**

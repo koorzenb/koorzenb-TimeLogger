@@ -1,10 +1,12 @@
 import { registerEvent, unregisterEvents } from "./utils/system-utils.js";
 import { DataHandler } from "./dataHandler.js";
+import { LoggerRepository } from "./loggerRepository.js";
 export class ViewModel {
 
     constructor() {
         this.init();
         console.log("viewModel started");
+        this.loggerRepository = new LoggerRepository("timeLoggerData");
     }
 
     dispose() {
@@ -79,8 +81,8 @@ export class ViewModel {
         const input = this.dataHandler.inflate(this.formInput.value);
         if (this.dataHandler.assignInput(input) === false) return;
         const record = this.dataHandler.createRecord();
-        const weekTimes = this.dataHandler(this.dataHandler.assignRecord)
-        save(weekTimes);
+        const weekTimes = this.dataHandler.assignRecord(record);
+        this.loggerRepository.saveToLocalStorage(weekTimes);
         this.createTemplate(entry);
         this.render()
         this.formInput.value = "";
