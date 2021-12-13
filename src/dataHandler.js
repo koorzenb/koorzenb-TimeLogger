@@ -1,22 +1,22 @@
-import { Dates, DateType } from './utils/enums.js'
-import { DateTime } from './utils/luxon.js'
-import { LoggerRepository } from './loggerRepository.js'
+import { Dates, DateType } from './utils/enums.js';
+import { DateTime } from './utils/luxon.js';
+import { LoggerRepository } from './loggerRepository.js';
 
 export class DataHandler {
     constructor() {
-        console.log('dataHandler started')
-        this.dt = new DateTime({})
+        console.log('dataHandler started');
+        this.dt = new DateTime({});
     }
 
     get getTodayDate() {
-        const temp = formattedDate()
+        const temp = formattedDate();
         // check for null
         // check for new date
         if (this._today == null) {
-            this._today = temp
+            this._today = temp;
         }
 
-        return this._today !== temp ? temp : this._today
+        return this._today !== temp ? temp : this._today;
     }
 
     /**
@@ -24,48 +24,48 @@ export class DataHandler {
      * @returns {Object} - list of entries for specified week number
      */
     getEntry(weekNumber) {
-        const thisWeek = this.dt.weekNumber
-        const loggedTimes = []
-        let entry
+        const thisWeek = this.dt.weekNumber;
+        const loggedTimes = [];
+        let entry;
 
         if (weekNumber != null) {
             entry =
                 this.loggerRepository.storage.filter(
                     (e) => e.weekNumber === weekNumber
-                ) || this.initializeEmptyWeek()
+                ) || this.initializeEmptyWeek();
 
             // this.removeEntryFromStorage(weekNumber);
         } else {
             //TODO: storage should be managed from elsewhere
-            const length = 1 // Object.keys(this.loggerRepository.storage).length
-            let lastItem = 1 // length !== 0 ? this.loggerRepository.storage[length - 1] : {};  //TODO: Length == 0? lastItem == {} and contidition below falls ovr
+            const length = 1; // Object.keys(this.loggerRepository.storage).length
+            let lastItem = 1; // length !== 0 ? this.loggerRepository.storage[length - 1] : {};  //TODO: Length == 0? lastItem == {} and contidition below falls ovr
 
             // remove these 3 lines. Is handled by showEntries()
             if (lastItem == null || lastItem.weekNumber != thisWeek) {
-                lastItem = this.initializeEmptyWeek()
+                lastItem = this.initializeEmptyWeek();
             }
-            entry = lastItem
+            entry = lastItem;
         }
 
         //thisWeek == null, meaning now new records for this week
 
-        return entry
+        return entry;
     }
 
     initializeEmptyWeek() {
         //TODO: pass weekNumber to initialize //TODO: might be duplication of inflate()
-        const enumDate = new Dates()
+        const enumDate = new Dates();
 
-        const offset = this.dt.weekday - 1 // days to substract so we start calc from Monday
-        let entry
-        const loggedTimes = []
+        const offset = this.dt.weekday - 1; // days to substract so we start calc from Monday
+        let entry;
+        const loggedTimes = [];
 
-        let count = 0
+        let count = 0;
         for (const day of DateType.WEEKDAY) {
-            const localOffset = count - offset
-            const calendarDate = this.dt.plus({ day: localOffset }).day // todayDate - offset - count
+            const localOffset = count - offset;
+            const calendarDate = this.dt.plus({ day: localOffset }).day; // todayDate - offset - count
             const paddedDate =
-                calendarDate < 10 ? `0${calendarDate}` : calendarDate
+                calendarDate < 10 ? `0${calendarDate}` : calendarDate;
             const item = {
                 day: `${enumDate.get(
                     DateType.WEEKDAY,
@@ -75,18 +75,18 @@ export class DataHandler {
                 dt: DateTime.now().plus({ day: localOffset }),
                 calendarDate,
                 offset: localOffset,
-            }
-            loggedTimes.push(item)
-            count++
+            };
+            loggedTimes.push(item);
+            count++;
         }
 
         entry = {
             weekNumber: this.dt.weekNumber,
             loggedTimes,
-        }
+        };
 
         //TODO: this.saveToLocalStorage(entry);
-        return entry
+        return entry;
     }
 
     getStartTime() {
@@ -95,16 +95,16 @@ export class DataHandler {
         //save to localStorage
     }
 
-    getEndTime() {}
+    getEndTime() { }
 
     assignInput(value) {
         if (this._startTime == null) {
-            this._startTime = value
-            return false
+            this._startTime = value;
+            return false;
         }
         if (this._endTime == null) {
-            this._endTime = value
-            return true //meaning, both entries have been populated
+            this._endTime = value;
+            return true; //meaning, both entries have been populated
         }
     }
 
@@ -119,7 +119,8 @@ export class DataHandler {
             dt: this.dt,
             startTime: this._startTime.inputValue,
             endTime: this._endTime.inputValue,
-        }
+            difference: this.calculateHours(this._startTime.inputValue, this._endTime.inputValue)
+        };
     }
 
     /**
@@ -127,26 +128,26 @@ export class DataHandler {
      * @param {obj} record
      */
     assignRecord(record) {
-        const loggedTimes = [record]
+        const loggedTimes = [record];
         //TODO: check for weekNumber if id exist on loggedTimes
 
         return {
             weekNumber: this._startTime.dt.weekData.weekNumber,
             loggedTimes,
-        }
+        };
     }
 
     /**
      * Dispose session's values of start and end times
      */
     clearEntries() {
-        delete this._startTime
-        delete this._endTime
+        delete this._startTime;
+        delete this._endTime;
     }
 
     inflate(inputValue) {
-        const id = `${this.dt.day}${this.dt.month}${this.dt.year}`
-        return { inputValue, dt: this.dt, id }
+        const id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
+        return { inputValue, dt: this.dt, id };
     }
 
     /**
@@ -156,6 +157,6 @@ export class DataHandler {
      * @returns
      */
     calculateHours(startValue, endValue) {
-        return endValue.diff(startValue)
+        return endValue.diff(startValue);
     }
 }

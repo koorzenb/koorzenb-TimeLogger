@@ -7,7 +7,7 @@
 form {
   display: flex;
   position: absolute;
-  right: 4rem;
+  /* right: -5rem; */
   bottom: 2rem;
   height: 3rem;
   width: 16rem;
@@ -53,6 +53,7 @@ input {
   margin-right: 1rem;
   border-radius: 15%/50%;
   padding-left: 1rem;
+  width: 6rem;
   border: 1px solid gray;
 }
 
