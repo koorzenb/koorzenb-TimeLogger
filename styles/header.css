@@ -16,12 +16,15 @@ svg {
 }
 
 header {
-  height: 3rem;
+  grid-area: header;
+  height: 100%;
   display: flex;
   color: white;
   align-items: center;
   background: var(--blue);
+  width: 100%;
   border-top: 1rem solid var(--darkblue);
+  box-sizing: border-box;
 }
 
 header h2 {

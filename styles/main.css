@@ -1,4 +1,5 @@
 h3#week-descriptor {
+  grid-area: main;
   content: attr(data-content);
   display: block;
   margin: 1rem 0;

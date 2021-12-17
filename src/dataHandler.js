@@ -1,5 +1,5 @@
 import { Dates, DateType } from './utils/enums.js';
-import { DateTime } from './utils/luxon.js';
+import { DateTime, Duration } from './utils/luxon.js';
 import { LoggerRepository } from './loggerRepository.js';
 
 export class DataHandler {
@@ -52,6 +52,93 @@ export class DataHandler {
         return entry;
     }
 
+    getStartTime() {
+        //waits on submission from input
+        //must be number
+        //save to localStorage
+    }
+
+    getEndTime() { }
+
+    /**
+     * Assigns input to either starting or ending time.
+     * If _startTime is empty, assigns incoming parameter to _startTime. Else assigns to  _endTime.
+     * @param {string} inflatedValue 
+     * @returns 
+     */
+    assignInput(inflatedValue) {
+        if (this._startTime != null && this._endTime != null) console.error("Prevous input did not clear");
+
+        if (this._startTime == null) {
+            this._startTime = inflatedValue;
+            return false;
+        }
+        if (this._endTime == null) {
+            this._endTime = inflatedValue;
+            return true; //meaning, both entries have been populated
+        }
+    }
+
+
+    /**
+     * Assign record to a week and insert into loggedTimes and save to localStorage
+     * @param {obj} record
+     */
+    assignRecord(record) {
+        const loggedTimes = [record];
+        //TODO: check for weekNumber if id exist on loggedTimes
+
+        return {
+            weekNumber: this._startTime.dt.weekData.weekNumber,
+            loggedTimes,
+        };
+    }
+
+    /**
+     * Calculcates the difference in time in milliseconds
+     * @param {DateTime} startValue
+     * @param {DateTime} endValue
+     * @returns
+     */
+    calculateHours(startValue, endValue) {
+        const diff = endValue.diff(startValue, ["hours", "minutes"]);
+        return diff;
+    }
+
+    /**
+     * Dispose session's values of start and end times
+     */
+    clearEntries() {
+        delete this._startTime;
+        delete this._endTime;
+    }
+
+    /**
+     * Create datasturcture of record to insert into template
+     * @returns {{id: `{number} id used by HTML`, day: "{string} name of weekday", startTime: number, endTime: number}}
+     */
+    createRecord() {
+        const difference = this.calculateHours(this._startTime.dt, this._endTime.dt);
+        const minutes = Number.parseInt(difference.minutes) < 10 ? `0${difference.minutes}` : difference.minutes;
+        const stringDiff = `${difference.hours}:${minutes}`;
+        return {
+            day: this._startTime.dt.weekdayLong,
+            difference,
+            dt: this.dt,
+            endTime: this._endTime.inputValue,
+            id: this._startTime.id,
+            startTime: this._startTime.inputValue,
+            stringDiff
+        };
+    }
+
+    inflate(inputValue) {
+        const id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
+        const timeParts = inputValue.split(":");
+        const newDt = DateTime.fromObject({ hour: timeParts[0], minutes: timeParts[1] });
+        return { dt: newDt, id, inputValue };
+    }
+
     initializeEmptyWeek() {
         //TODO: pass weekNumber to initialize //TODO: might be duplication of inflate()
         const enumDate = new Dates();
@@ -87,76 +174,5 @@ export class DataHandler {
 
         //TODO: this.saveToLocalStorage(entry);
         return entry;
-    }
-
-    getStartTime() {
-        //waits on submission from input
-        //must be number
-        //save to localStorage
-    }
-
-    getEndTime() { }
-
-    assignInput(value) {
-        if (this._startTime == null) {
-            this._startTime = value;
-            return false;
-        }
-        if (this._endTime == null) {
-            this._endTime = value;
-            return true; //meaning, both entries have been populated
-        }
-    }
-
-    /**
-     * Create datasturcture of record to insert into template
-     * @returns {{id: `{number} id used by HTML`, day: "{string} name of weekday", startTime: number, endTime: number}}
-     */
-    createRecord() {
-        return {
-            id: this._startTime.id,
-            day: this._startTime.dt.weekdayLong,
-            dt: this.dt,
-            startTime: this._startTime.inputValue,
-            endTime: this._endTime.inputValue,
-            difference: this.calculateHours(this._startTime.inputValue, this._endTime.inputValue)
-        };
-    }
-
-    /**
-     * Assign record to a week and insert into loggedTimes and save to localStorage
-     * @param {obj} record
-     */
-    assignRecord(record) {
-        const loggedTimes = [record];
-        //TODO: check for weekNumber if id exist on loggedTimes
-
-        return {
-            weekNumber: this._startTime.dt.weekData.weekNumber,
-            loggedTimes,
-        };
-    }
-
-    /**
-     * Dispose session's values of start and end times
-     */
-    clearEntries() {
-        delete this._startTime;
-        delete this._endTime;
-    }
-
-    inflate(inputValue) {
-        const id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
-        return { inputValue, dt: this.dt, id };
-    }
-
-    /**
-     * Calculcates the difference in time in milliseconds
-     * @param {DateTime} startValue
-     * @param {DateTime} endValue
-     * @returns
-     */
-    calculateHours(startValue, endValue) {
-        return endValue.diff(startValue);
     }
 }

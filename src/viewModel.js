@@ -24,68 +24,6 @@ export class ViewModel {
     }
 
     /**
-     * Initializes view model
-     */
-    init() {
-        const body = document.querySelector('body');
-        this.itemsList = document.querySelector('main > ul');
-        this.formInput = document.querySelector('form input');
-        registerEvent(body, 'click', this.clickHandler);
-        registerEvent(body, 'submit', this.submitHandler);
-        this.dataHandler = new DataHandler();
-        this.itemTemplate = document.querySelector('template#task-item');
-        this.clickHandler = this._click.bind(this);
-        this.submitHandler = this._submit.bind(this);
-        registerEvent(body, 'click', this.clickHandler);
-        // this.showEntries();
-    }
-
-    showEntries() {
-        let data = this.dataHandler.getEntry();
-        if (!data) data = this.dataHandler.initializeEmptyWeek();
-
-        this.render(data);
-    }
-
-    render() {
-        this.itemsList.appendChild(this.fragment);
-        this.fragment = null;
-    }
-
-    /**
-     * Handles click event
-     * @param {*} event
-     */
-    _click(event) {
-        event.preventDefault();
-        try {
-            this[`${event.target.id}`]();
-        } catch (error) {
-            // const targetError = error.includes('event.target.id');
-            // if (!targetError) 
-            console.log(error);
-        }
-    }
-
-    /**
-     * Handles submit event
-     * @param {*} e
-     */
-    _submit(e) {
-        e.preventDefault();
-        this[`${e.target.id}`]();
-    }
-
-    toggleFormInputPlaceholder() {
-        this.formInput.value = '';
-        const placeholderValue = this.formInput.getAttribute('placeholder');
-        this.formInput.setAttribute(
-            'placeholder',
-            placeholderValue == 'Starting time' ? 'End Time' : 'Starting Time'
-        );
-    }
-
-    /**
      * Adds an item to the DOM
      * @param {*} event
      */
@@ -110,6 +48,40 @@ export class ViewModel {
         //render before new inputs
     }
 
+
+    /**
+     * Initializes view model
+     */
+    init() {
+        const body = document.querySelector('body');
+        this.itemsList = document.querySelector('main > ul');
+        this.formInput = document.querySelector('form input');
+        registerEvent(body, 'click', this.clickHandler);
+        registerEvent(body, 'submit', this.submitHandler);
+        this.dataHandler = new DataHandler();
+        this.itemTemplate = document.querySelector('template#task-item');
+        this.clickHandler = this._click.bind(this);
+        this.submitHandler = this._submit.bind(this);
+        registerEvent(body, 'click', this.clickHandler);
+        // this.showEntries();
+    }
+
+    /**
+     * Handles click event
+     * @param {*} event
+     */
+    _click(event) {
+        event.preventDefault();
+        try {
+            this[`${event.target.id}`]();
+        } catch (error) {
+            // const targetError = error.includes('event.target.id');
+            // if (!targetError) 
+            console.log(event.target.id);
+            console.log(error);
+        }
+    }
+
     /**
      *
      * @param {{_day: string, _id: number, loggedTimes: {start: number, end: number, _difference:number}}} entry
@@ -119,7 +91,7 @@ export class ViewModel {
         this.fragment = new DocumentFragment();
         const clone = this.itemTemplate.content.cloneNode(true);
         const itemDescription = clone.querySelector('.item-description');
-        itemDescription.textContent = `${entry.startTime} - ${entry.endTime}`;
+        itemDescription.textContent = `${entry.startTime} - ${entry.endTime} = ${entry.stringDiff} hours`;
         clone.querySelector('.item-date').textContent = entry.dt.toLocaleString(
             {
                 weekday: 'long',
@@ -137,4 +109,35 @@ export class ViewModel {
         updatedEntries = this.localStorage.filter(e => e.weekNumber != weekNo);
         this.localStorage = updatedEntries;
     }
+
+    render() {
+        this.itemsList.appendChild(this.fragment);
+        this.fragment = null;
+    }
+
+    showEntries() {
+        let data = this.dataHandler.getEntry();
+        if (!data) data = this.dataHandler.initializeEmptyWeek();
+
+        this.render(data);
+    }
+
+    /**
+     * Handles submit event
+     * @param {*} e
+     */
+    _submit(e) {
+        e.preventDefault();
+        this[`${e.target.id}`]();
+    }
+
+    toggleFormInputPlaceholder() {
+        this.formInput.value = '';
+        const placeholderValue = this.formInput.getAttribute('placeholder');
+        this.formInput.setAttribute(
+            'placeholder',
+            placeholderValue == 'Starting time' ? 'End Time' : 'Starting Time'
+        );
+    }
+
 }

@@ -6,12 +6,10 @@
 
 form {
   display: flex;
-  position: absolute;
-  /* right: -5rem; */
-  bottom: 2rem;
+  position: relative;
   height: 3rem;
-  width: 16rem;
-  flex-direction: row;
+  width: 11rem;
+  right: 1rem;
 }
 
 button#addItem {
