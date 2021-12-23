@@ -132,8 +132,13 @@ export class DataHandler {
         };
     }
 
-    inflate(inputValue) {
-        const id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
+    /**
+     * Creates an obj with an id off input value. Also adds dt
+     * @param {string} inputValue - value received from form inpt
+     * @returns {obj} 
+     */
+    inflate(inputValue, id) {
+        if (id == null) id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
         const timeParts = inputValue.split(":");
         const newDt = DateTime.fromObject({ hour: timeParts[0], minutes: timeParts[1] });
         return { dt: newDt, id, inputValue };

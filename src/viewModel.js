@@ -34,7 +34,7 @@ export class ViewModel {
         const record = this.dataHandler.createRecord();
         const weekTimes = this.dataHandler.assignRecord(record);
         this.loggerRepository.saveToLocalStorage(weekTimes);
-        this.createTemplate(record);
+        this.createFragment(record);
         this.render();
         this.dataHandler.clearEntries();
 
@@ -63,7 +63,7 @@ export class ViewModel {
         this.clickHandler = this._click.bind(this);
         this.submitHandler = this._submit.bind(this);
         registerEvent(body, 'click', this.clickHandler);
-        // this.showEntries();
+        this.showEntries();
     }
 
     /**
@@ -83,11 +83,18 @@ export class ViewModel {
     }
 
     /**
-     *
-     * @param {{_day: string, _id: number, loggedTimes: {start: number, end: number, _difference:number}}} entry
+     * Clone and populate template and write to fragment 
+     * @param entry {{
+     * _day: string, 
+     * _id: number, 
+     * loggedTimes: {
+     *  start: number, 
+     *  end: number, 
+     *  _difference:number}
+     * }}
      * @returns
      */
-    createTemplate(entry) {
+    createFragment(entry) {
         this.fragment = new DocumentFragment();
         const clone = this.itemTemplate.content.cloneNode(true);
         const itemDescription = clone.querySelector('.item-description');
@@ -113,9 +120,11 @@ export class ViewModel {
     render() {
         this.itemsList.appendChild(this.fragment);
         this.fragment = null;
+
     }
 
     showEntries() {
+        // write empty week on start
         let data = this.dataHandler.getEntry();
         if (!data) data = this.dataHandler.initializeEmptyWeek();
 
