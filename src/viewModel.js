@@ -30,6 +30,7 @@ export class ViewModel {
     addItem() {
         const input = this.dataHandler.inflate(this.formInput.value);
         this.toggleFormInputPlaceholder();
+        const week = this.dataHandler.initializeEmptyWeek();
         if (this.dataHandler.assignInput(input) === false) return;
         const record = this.dataHandler.createRecord();
         const weekTimes = this.dataHandler.assignRecord(record);
@@ -98,7 +99,7 @@ export class ViewModel {
         this.fragment = new DocumentFragment();
         const clone = this.itemTemplate.content.cloneNode(true);
         const itemDescription = clone.querySelector('.item-description');
-        itemDescription.textContent = `${entry.startTime} - ${entry.endTime} = ${entry.stringDiff} hours`;
+        itemDescription.textContent = `${entry.startTime} - ${entry.endTime} = ${entry.stringValue} hours`;
         clone.querySelector('.item-date').textContent = entry.dt.toLocaleString(
             {
                 weekday: 'long',
@@ -120,13 +121,13 @@ export class ViewModel {
     render() {
         this.itemsList.appendChild(this.fragment);
         this.fragment = null;
-
     }
 
+    // write empty week on start
     showEntries() {
-        // write empty week on start
-        let data = this.dataHandler.getEntry();
-        if (!data) data = this.dataHandler.initializeEmptyWeek();
+        let data = this.dataHandler.initializeEmptyWeek();
+
+        data = this.dataHandler.getEntry();
 
         this.render(data);
     }

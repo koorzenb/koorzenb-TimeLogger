@@ -15,6 +15,10 @@ describe("DataHandler tests", () => {
 
         dataHandler._startTime = {
             dt: {
+                c: {
+                    year: 2021,
+                    hour: 17
+                },
                 weekData:
                 {
                     weekNumber: 49
@@ -101,6 +105,12 @@ describe("DataHandler tests", () => {
         expect(callDiff).toMatch("PT1H1M");
     });
 
+
+    test('getWeekStartDateFromWeekNumber', () => {
+        const returnDate = dataHandler.getWeekStartDateFromWeekNumber();
+        expect(returnDate.startingDate <= 31).toBe(true);
+    });
+
     test('inflate', () => {
         const inflated = dataHandler.inflate("08:15");
         expect(inflated.dt.isLuxonDateTime).toBe(true);
@@ -131,7 +141,7 @@ describe("DataHandler tests", () => {
 
         expect(typeof record.id === "number").toBe(true);
         expect(typeof record.day === "string").toBe(true);
-        expect(record.dt.isLuxonDateTime).toBe.true;
+        // expect(record.dt.isLuxonDateTime).toBe.true;
         expect(typeof record.endTime === "string").toBe(true);
         expect(typeof record.startTime === "string").toBe(true);
         expect(Number.parseInt(record.endTime) <= 24).toBe(true);

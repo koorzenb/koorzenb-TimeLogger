@@ -1,10 +1,10 @@
-import { Dates, DateType } from './utils/enums.js';
-import { DateTime, Duration } from './utils/luxon.js';
-import { LoggerRepository } from './loggerRepository.js';
+import { Dates, DateType } from "./utils/enums.js";
+import { DateTime, Duration } from "./utils/luxon.js";
+import { LoggerRepository } from "./loggerRepository.js";
 
 export class DataHandler {
     constructor() {
-        console.log('dataHandler started');
+        console.log("dataHandler started");
         this.dt = new DateTime({});
     }
 
@@ -30,9 +30,9 @@ export class DataHandler {
 
         if (weekNumber != null) {
             entry =
-                this.loggerRepository.storage.filter(
-                    (e) => e.weekNumber === weekNumber
-                ) || this.initializeEmptyWeek();
+              this.loggerRepository.storage.filter(
+                (e) => e.weekNumber === weekNumber
+              ) || this.initializeEmptyWeek();
 
             // this.removeEntryFromStorage(weekNumber);
         } else {
@@ -58,13 +58,14 @@ export class DataHandler {
         //save to localStorage
     }
 
-    getEndTime() { }
+    getEndTime() {
+    }
 
     /**
      * Assigns input to either starting or ending time.
      * If _startTime is empty, assigns incoming parameter to _startTime. Else assigns to  _endTime.
-     * @param {string} inflatedValue 
-     * @returns 
+     * @param {string} inflatedValue
+     * @returns
      */
     assignInput(inflatedValue) {
         if (this._startTime != null && this._endTime != null) console.error("Prevous input did not clear");
@@ -90,7 +91,7 @@ export class DataHandler {
 
         return {
             weekNumber: this._startTime.dt.weekData.weekNumber,
-            loggedTimes,
+            loggedTimes
         };
     }
 
@@ -117,64 +118,86 @@ export class DataHandler {
      * Create datasturcture of record to insert into template
      * @returns {{id: `{number} id used by HTML`, day: "{string} name of weekday", startTime: number, endTime: number}}
      */
-    createRecord() {
-        const difference = this.calculateHours(this._startTime.dt, this._endTime.dt);
-        const minutes = Number.parseInt(difference.minutes) < 10 ? `0${difference.minutes}` : difference.minutes;
-        const stringDiff = `${difference.hours}:${minutes}`;
+    createRecord(calenderDate, weekday, id) {
+        let difference, minutes, stringValue;
+        if (this._startTime != 0) {
+            difference = this.calculateHours(this._startTime.dt, this._endTime.dt);
+            minutes = Number.parseInt(difference.minutes) < 10 ? `0${difference.minutes}` : difference.minutes;
+            stringValue = `${difference.hours}:${minutes}`;
+        } else {
+            stringValue = "Nothing logged"
+        }
         return {
-            day: this._startTime.dt.weekdayLong,
+            calenderDate,
+            day: weekday || this._startTime.dt.weekdayLong,
             difference,
-            dt: this.dt,
-            endTime: this._endTime.inputValue,
-            id: this._startTime.id,
-            startTime: this._startTime.inputValue,
-            stringDiff
+            endTime: this._endTime.inputValue ?? "",
+            id: id || this._startTime.id,
+            startTime: this._startTime.inputValue ?? "",
+            stringValue
         };
+    }
+
+    getWeekStartDateFromWeekNumber(weekNumber) {
+        const yearNumber = DateTime.now().year;
+        weekNumber = weekNumber || DateTime.now().weekNumber;
+        const dt = DateTime.fromObject({
+            weekYear: yearNumber,
+            weekNumber
+        });
+        return { startingDate: dt.startOf("week").c.day, dt };
     }
 
     /**
      * Creates an obj with an id off input value. Also adds dt
      * @param {string} inputValue - value received from form inpt
-     * @returns {obj} 
+     * @returns {obj}
      */
     inflate(inputValue, id) {
         if (id == null) id = `${this.dt.day}${this.dt.month}${this.dt.year}`;
-        const timeParts = inputValue.split(":");
-        const newDt = DateTime.fromObject({ hour: timeParts[0], minutes: timeParts[1] });
+
+        let newDt = null;
+        if (inputValue != null) {
+            const timeParts = inputValue.split(":");
+            newDt = DateTime.fromObject({ hour: timeParts[0], minutes: timeParts[1] });
+        }
         return { dt: newDt, id, inputValue };
     }
 
     initializeEmptyWeek() {
         //TODO: pass weekNumber to initialize //TODO: might be duplication of inflate()
         const enumDate = new Dates();
-
-        const offset = this.dt.weekday - 1; // days to substract so we start calc from Monday
+        const startDate = this.getWeekStartDateFromWeekNumber();
+        // const offset = this.dt.weekday - 1; // days to substract so we start calc from Monday
         let entry;
         const loggedTimes = [];
+        this.assignInput(0); //assigning start value
+        this.assignInput(0); //assigning end value
 
         let count = 0;
         for (const day of DateType.WEEKDAY) {
-            const localOffset = count - offset;
-            const calendarDate = this.dt.plus({ day: localOffset }).day; // todayDate - offset - count
+            // const localOffset = count - offset;
+            // change line below to start with startDate and to pus.count
+            const nextDate = startDate.dt.plus({ day: count });
+            const calendarDate = nextDate.day; // todayDate - offset - count
             const paddedDate =
-                calendarDate < 10 ? `0${calendarDate}` : calendarDate;
-            const item = {
-                day: `${enumDate.get(
-                    DateType.WEEKDAY,
-                    DateType.WEEKDAY.indexOf(day)
-                )}`,
-                id: `${paddedDate}${this.dt.month}${this.dt.year}`,
-                dt: DateTime.now().plus({ day: localOffset }),
-                calendarDate,
-                offset: localOffset,
-            };
+              calendarDate < 10 ? `0${calendarDate}` : calendarDate;
+
+            const weekday = `${enumDate.get( //demonstarting Enums
+              DateType.WEEKDAY,
+              DateType.WEEKDAY.indexOf(day)
+            )}`;
+            const id = `${paddedDate}${nextDate.month}${nextDate.year}`;
+            const item = this.createRecord(
+              calendarDate, weekday, id
+            );
             loggedTimes.push(item);
             count++;
         }
 
         entry = {
             weekNumber: this.dt.weekNumber,
-            loggedTimes,
+            loggedTimes
         };
 
         //TODO: this.saveToLocalStorage(entry);
