@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3285ffbb-ce14-42f3-91c4-a173d8dcb7cf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.prettierrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TODO.md" beforeDir="false" afterPath="$PROJECT_DIR$/TODO.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dataHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataHandler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/viewModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/viewModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/dataHandler.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/dataHandler.test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +61,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.start" />
-        <item itemvalue="JavaScript Debug." />
       </list>
     </recent_temporary>
   </component>
@@ -77,6 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1640695939108</updated>
       <workItem from="1640695941420" duration="5368000" />
+      <workItem from="1641188835917" duration="603000" />
     </task>
     <servers />
   </component>
@@ -88,8 +85,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/dataHandler.js</url>
-          <line>174</line>
-          <properties lambdaOrdinal="-1" />
+          <line>13</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

@@ -1,3 +1,6 @@
+see
+https://exceptionshub.com/update-package-json-version-automatically.html
+
 get date - if same just overwrite with new values for now
 get start time
 get end time
