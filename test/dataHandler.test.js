@@ -26,7 +26,6 @@ describe("DataHandler tests", () => {
                 weekdayLong: "Thursday",
                 isLuxonDateTime: true
             },
-            id: 9122021,
             inputValue: "8.15"
         };
 
@@ -34,11 +33,15 @@ describe("DataHandler tests", () => {
 
         dataHandler._endTime = {
             dt: {},
-            id: 9122021,
             inputValue: "17"
         };
 
         dataHandler._endTime2 = DateTime.fromObject({ hour: 17 });
+
+        dataHandler.entries = new Map();
+        dataHandler.entries.set(09122021, {
+
+        });
     });
 
     afterEach(() => {
@@ -148,5 +151,16 @@ describe("DataHandler tests", () => {
 
         dataHandler._startTime = _tempStart;
         dataHandler._endTime = _tempEnd;
+    });
+
+    test('createDailyEntry', () => {
+        // needs: starttime, endtime and associated dt
+
+        const entry = dataHandler.createDailyEntry(input);
+    });
+
+    test('readDailyEntry', () => {
+        const entry = dataHandler.readDailyEntry(id);
+
     });
 });

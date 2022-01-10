@@ -15,7 +15,7 @@ export class DataHandler {
      * @param input {{description: string, dt: dt}}
      */
     createDailyEntry(input) {
-        //do not return anything - should be handled by Read
+
 
         /**
          * Properties
