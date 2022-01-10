@@ -11,6 +11,18 @@
 </head>
 
 <body>
+
+  <template id="task-item">
+    <li>
+      <input type="checkbox" />
+      <div class="item-details">
+        <p class="item-description">--details--</p>
+        <p class="item-date">--date--</p>
+        <!-- TODO: add hidden close and edit buttons -->
+      </div>
+    </li>
+  </template>
+
   <header>
     <button id="menu" tabindex="0" aria-label="tasks-menu">
       <!-- button will not be used in this project -->
@@ -20,28 +32,30 @@
         <rect y="40" width="80" height="10"></rect>
       </svg>
     </button>
-    <h2 id="main-title">Tasks</h2>
+    <h2 id="main-title">TimeLogger</h2>
   </header>
 
   <main>
-    <h3 id="week-descriptor">v2</h3>
+    <h3 id="week-descriptor">v1</h3>
 
     <ul>
       <!-- list of items to be inserted here -->
     </ul>
   </main>
 
-  <form id="add">
-    <input type="time" required minlength="1" placeholder="Starting time" />
+  <footer>
+    <form id="add">
+      <input type="time" min="0" max="24" required minlength="1" placeholder="Starting time" />
 
-    <button id="addItem" type="submit">
-      <?xml version="1.0"?><svg id="addItem" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-        width="57px" height="57px">
-        <path
-          d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z M17,13h-4v4h-2v-4H7v-2h4V7h2v4h4V13z" />
-      </svg>
-    </button>
-  </form>
+      <button id="addItem" type="submit">
+        <?xml version="1.0"?><svg id="addItem" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          width="57px" height="57px">
+          <path
+            d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z M17,13h-4v4h-2v-4H7v-2h4V7h2v4h4V13z" />
+        </svg>
+      </button>
+    </form>
+  </footer>
 
   <script src="index.js" type="module"></script>
 </body>

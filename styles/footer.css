@@ -1,0 +1,5 @@
+footer {
+    display: flex;
+    grid-area: footer;
+    justify-content: flex-end;
+}

@@ -12,6 +12,36 @@ describe("DataHandler tests", () => {
 
     beforeEach(() => {
         dataHandler = new DataHandler;
+
+        dataHandler._startTime = {
+            dt: {
+                c: {
+                    year: 2021,
+                    hour: 17
+                },
+                weekData:
+                {
+                    weekNumber: 49
+                },
+                weekdayLong: "Thursday",
+                isLuxonDateTime: true
+            },
+            inputValue: "8.15"
+        };
+
+        dataHandler._startTime2 = DateTime.fromObject({ hour: 8 });
+
+        dataHandler._endTime = {
+            dt: {},
+            inputValue: "17"
+        };
+
+        dataHandler._endTime2 = DateTime.fromObject({ hour: 17 });
+
+        dataHandler.entries = new Map();
+        dataHandler.entries.set(09122021, {
+
+        });
     });
 
     afterEach(() => {

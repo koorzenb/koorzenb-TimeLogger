@@ -1,14 +1,16 @@
-import { registerEvent, unregisterEvents } from "./utils/system-utils.js";
-import { DataHandler } from "./dataHandler.js";
+import { registerEvent, unregisterEvents } from './utils/system-utils.js';
+import { DataHandler } from './dataHandler.js';
+import { LoggerRepository } from './loggerRepository.js';
 export class ViewModel {
-
     constructor() {
-        document.addEventListener('DOMContentLoaded', this.initHandler);
-        console.log("viewModel started");
+        this.init();
+        console.log('viewModel started');
+        console.log("%cRemember to code for mobile", "color: blue");
+        this.loggerRepository = new LoggerRepository('timeLoggerData');
     }
 
     dispose() {
-        unregisterEvents(addButton, "click");
+        unregisterEvents(body, 'click');
         delete this.clickHandler;
         delete this.itemTemplate;
         delete this.formInput;
