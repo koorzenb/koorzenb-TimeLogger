@@ -48,7 +48,13 @@ describe("DataHandler tests", () => {
         dataHandler == null;
     });
 
-    test('should ', () => {
+    /**
+     * Checks if entry was correctly created
+     */
+    test('create ', () => {
+
+        datahandler.createDailyEntry(description);
+
 
     });
 });
