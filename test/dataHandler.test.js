@@ -16,17 +16,17 @@ describe("DataHandler tests", () => {
         dataHandler._startTime = {
             dt: {
                 c: {
-                    year: 2021,
-                    hour: 17
+                    year: 2022,
+                    hour: 08
                 },
                 weekData:
                 {
-                    weekNumber: 5
+                    weekNumber: 4
                 },
                 weekdayLong: "Thursday",
                 isLuxonDateTime: true
             },
-            inputValue: "8.15"
+            inputValue: "8"
         };
 
         dataHandler._startTime2 = DateTime.fromObject({hour: 8});
@@ -39,9 +39,9 @@ describe("DataHandler tests", () => {
         dataHandler._endTime2 = DateTime.fromObject({hour: 17});
 
         dataHandler.entries = new Map();
-        dataHandler.entries.set(09122021, {
+        // dataHandler.entries.set(09122021, {
 
-        });
+        // });
     });
 
     afterEach(() => {
@@ -53,8 +53,17 @@ describe("DataHandler tests", () => {
      */
     test('create ', () => {
 
-        datahandler.createDailyEntry(description);
-        log;
+        const entry = dataHandler.createDailyEntry({startTime: dataHandler._startTime, endTime: dataHandler._endTime});
+        TODO: get this crete to wrok;
+        expect(entry.id).toEqual(25012022);
+        expect(entry.dt.weekdayLong).toEqual("Monday");
+        expect(entry.startTime).toEqual(dataHandler._startTime);
+        expect(entry.difference).toEqual(dataHandler._difference);
+    });
 
+
+    test('getWeekStartDate ', () => {
+        const date = dataHandler.getWeekStartDate();
+        expect(date).toEqual(7);
     });
 });

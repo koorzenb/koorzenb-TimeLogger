@@ -7,7 +7,7 @@ export class DataHandler {
     constructor() {
         console.log("dataHandler started");
         this.dt = new DateTime({});
-
+        this.createDailyEntry();
         // this.fileIO = new FileIO();
     }
 
@@ -17,8 +17,12 @@ export class DataHandler {
      */
     createDailyEntry(input) {
 
-        const date = DateTime.fromObject({weekData: {weekNumber: 5}});
-        return this.dt;
+
+
+        // const date = this.getWeekStartDate(5);
+        // return this.dt;
+
+
         /**
          * Properties
          * - id - function of date/dt
@@ -56,4 +60,19 @@ export class DataHandler {
      * @param {string} id 
      */
     deleteDailyEntry(id) { }
+
+    /**
+     * For given weeknumber, calculcate the starting date
+     * @param {number} weekNumber - week number to calculcate starting date from
+     * @returns 
+     */
+    getWeekStartDate(weekNumber) {
+        const yearNumber = DateTime.now().year;
+        weekNumber = weekNumber || DateTime.now().weekNumber;
+        const dt = DateTime.fromObject({
+            weekYear: yearNumber,
+            weekNumber
+        });
+        return {startingDate: dt.startOf("week").c.day, dt};
+    }
 }
