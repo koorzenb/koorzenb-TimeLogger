@@ -17,7 +17,7 @@ describe("DataHandler tests", () => {
             dt: {
                 c: {
                     year: 2022,
-                    hour: 08
+                    hour: 8
                 },
                 weekData:
                 {
