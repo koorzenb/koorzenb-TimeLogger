@@ -1,13 +1,14 @@
-import { Dates, DateType } from "./utils/enums.js";
-import { DateTime } from "./utils/luxon.js";
-import { FileIO } from "./fileIO.js";
+import {Dates, DateType} from "./utils/enums.js";
+import {DateTime} from "./utils/luxon.js";
+// import {FileIO} from "./fileIO.js";
 
 export class DataHandler {
 
     constructor() {
         console.log("dataHandler started");
         this.dt = new DateTime({});
-        this.fileIO = new FileIO();
+
+        // this.fileIO = new FileIO();
     }
 
     /**
@@ -16,15 +17,16 @@ export class DataHandler {
      */
     createDailyEntry(input) {
 
-
+        const date = DateTime.fromObject({weekData: {weekNumber: 5}});
+        return this.dt;
         /**
          * Properties
          * - id - function of date/dt
          * - dt
          *      - weekNumber
          *      - weekdayLong
-         * - date string? No, can extrapolate from dt
-         * - description
+         * - _startTime
+         * - _endTime
          * - difference
          */
 

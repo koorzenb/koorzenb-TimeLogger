@@ -1,5 +1,5 @@
-import { DataHandler } from "../src/dataHandler.js";
-import { DateTime } from "../src/utils/luxon.JS";
+import {DataHandler} from "../src/dataHandler.js";
+import {DateTime} from "../src/utils/luxon.JS";
 
 describe("DataHandler tests", () => {
 
@@ -21,7 +21,7 @@ describe("DataHandler tests", () => {
                 },
                 weekData:
                 {
-                    weekNumber: 49
+                    weekNumber: 5
                 },
                 weekdayLong: "Thursday",
                 isLuxonDateTime: true
@@ -29,14 +29,14 @@ describe("DataHandler tests", () => {
             inputValue: "8.15"
         };
 
-        dataHandler._startTime2 = DateTime.fromObject({ hour: 8 });
+        dataHandler._startTime2 = DateTime.fromObject({hour: 8});
 
         dataHandler._endTime = {
             dt: {},
             inputValue: "17"
         };
 
-        dataHandler._endTime2 = DateTime.fromObject({ hour: 17 });
+        dataHandler._endTime2 = DateTime.fromObject({hour: 17});
 
         dataHandler.entries = new Map();
         dataHandler.entries.set(09122021, {
@@ -54,7 +54,7 @@ describe("DataHandler tests", () => {
     test('create ', () => {
 
         datahandler.createDailyEntry(description);
-
+        log;
 
     });
 });

@@ -1,6 +1,6 @@
-import { registerEvent, unregisterEvents } from './utils/system-utils.js';
-import { DataHandler } from './dataHandler.js';
-import { LoggerRepository } from './loggerRepository.js';
+import {registerEvent, unregisterEvents} from './utils/system-utils.js';
+import {DataHandler} from './dataHandler.js';
+import {LoggerRepository} from './loggerRepository.js';
 export class ViewModel {
     constructor() {
         this.init();
@@ -21,6 +21,11 @@ export class ViewModel {
         delete this.fragment;
         delete this.dt;
         delete this.dataHandler;
+    }
+
+    init() {
+        const dt = new DataHandler();
+        dt.createDailyEntry();
     }
 
 
