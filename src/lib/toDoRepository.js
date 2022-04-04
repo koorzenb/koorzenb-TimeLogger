@@ -1,6 +1,7 @@
-import {create} from "browser-sync";
+// import {path} from "path";
+// import {fs} from "fs";
 
-class TodoRepository {
+export class ToDoRepository {
     /**
      * Action after "+"
      */
@@ -17,26 +18,30 @@ class TodoRepository {
         this._data = newValue;
     }
 
-    constructor(dataLocation) {
+    constructor(dataLocation, fileName) {
         this.dataLocation = dataLocation;
+        // this.create(dataLocation, fileName);
     }
 
-    create() {
-        // loadComponent("list-item", "ul")
-        // data.records.set(++id, inputvalue)
-        // emit("changed")
-
-        /**
-         * v2
-         * 
-         * if no file, create data/entries.json with array as content
-         */
+    async create(dataLocation = "../../data", fileName = "./entries.js") {
+        const saveFile = path.resolve(__dirname, `${dir}/${fileName}`);
 
         try {
-            await fetch(this.dataLocation);
+            await fetch(saveFile);
+            return;
         } catch (e) {
             console.warn("no data store - created new");
+            if (fs.existsSync(saveFile) === false) {
+                const json = [];
+                const output = JSON.stringify(json, null, 4);
+                fs.writeFileSync(saveFile, output, "utf-8");
+            }
             //TODO: create new file - cannot us fs. since node doesnt run on mobile
+            const dir = path.resolve(__dirname, dataLocation);
+
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir);
+            }
         }
     }
 
@@ -70,7 +75,7 @@ class TodoRepository {
      * 
      * @returns Fetch all data from file
      */
-    readAll() {
+    async readAll() {
         if (this.dataLocation == null) return;
 
         const response = await fetch(this.dataLocation);
