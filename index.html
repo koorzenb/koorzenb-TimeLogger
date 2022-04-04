@@ -7,22 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles/styles.css">
   <link rel="icon" type="image/png" href="./images/favicon.png" />
-  <title>Time Logger</title>
+  <title>ToDo list</title>
+  <script src="./src/webComponents/list-item/list-item.js" type="module"></script>
+  <script src="./src/webComponents/customList/customList.js" type="module"></script>
+  <script src="./src/webComponents/data-control/data-control.js" type="module"></script>
 </head>
 
 <body>
-
-  <template id="task-item">
-    <li>
-      <input type="checkbox" />
-      <div class="item-details">
-        <p class="item-description">--details--</p>
-        <p class="item-date">--date--</p>
-        <!-- TODO: add hidden close and edit buttons -->
-      </div>
-    </li>
-  </template>
-
   <header>
     <button id="menu" tabindex="0" aria-label="tasks-menu">
       <!-- button will not be used in this project -->
@@ -32,32 +23,30 @@
         <rect y="40" width="80" height="10"></rect>
       </svg>
     </button>
-    <h2 id="main-title">TimeLogger</h2>
+    <h2>Tasks</h2>
   </header>
 
   <main>
-    <h3 id="week-descriptor">v1</h3>
-
-    <ul>
-      <!-- list of items to be inserted here -->
-    </ul>
+    <h3 id="date-descriptor">Today</h3>
+    <custom-list></custom-list>
   </main>
 
-  <footer>
-    <form id="add">
-      <input type="time" min="0" max="24" required minlength="1" placeholder="Starting time" />
+  <form id="add">
+    <input class="hidden" required minlength="1" placeholder="Type details" />
 
-      <button id="addItem" type="submit">
-        <?xml version="1.0"?><svg id="addItem" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-          width="57px" height="57px">
-          <path
-            d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z M17,13h-4v4h-2v-4H7v-2h4V7h2v4h4V13z" />
-        </svg>
-      </button>
-    </form>
-  </footer>
+    <button id="addItem" type="submit">
+      <?xml version="1.0"?><svg id="addItem" fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+        width="57px" height="57px">
+        <path
+          d="M12,2C6.477,2,2,6.477,2,12s4.477,10,10,10s10-4.477,10-10S17.523,2,12,2z M17,13h-4v4h-2v-4H7v-2h4V7h2v4h4V13z" />
+      </svg>
+    </button>
+  </form>
 
-  <script src="index.js" type="module"></script>
+  <data-control data-url="./data/entries.json" data-target="custom-list"></data-control>
+  <my-local-storage title="toDoList" data-url="./data/entries.json"></my-local-storage>
+
+  <script type="module" src="./index.js"></script>
 </body>
 
 </html>

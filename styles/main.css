@@ -1,6 +1,4 @@
-h3#week-descriptor {
-  grid-area: main;
-  content: attr(data-content);
+h3#date-descriptor {
   display: block;
   margin: 1rem 0;
   padding-left: 1rem;

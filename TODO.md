@@ -1,38 +1,44 @@
-see
-https://exceptionshub.com/update-package-json-version-automatically.html
-
-get date - if same just overwrite with new values for now
-get start time
-get end time
-# TODO
-
-## Populate empty week
-1. initializeEmptyWeek
-    Requirements:
-        - must have 7 days for (current) week
-        - must have dates associated with days
-        - if localstorage empty, must show as "nothing logged" for "date"
-
-    - populate empty week
-    - write to screen
-    -check of storage
-    - fill by id
-
-1. get from storage
-    1. getweek
-1. if some (or nothing), fill empty spaces
-    1. find by id and replace empty space
 
 
+<!-- for editing
+on checkbox true, open input and accept description -->
+# data-control
 
 
-Update placeholder on new entry and write to DOM
+- data-control
+    - update UI
+        - get datasource.data lists
+        - for each record, get value and recordToUpdate.push(currentValue)
+            ```js
+            {
+               id: 1,
+               recordValue (or just "value"): "get cucumber" 
+            } 
+            ```
 
-Change "Today" to "Week x: 31 July - 6 Aug"
 
-Get current time. Suggest to use rounded value to nearest 5min; or manual input 
+```js
+class loadComponents(id, target) {
+    createElement("template");
+    html = getHTML(id); //fetch?
+    template.innerHTML = html;
+    target.appendChild(template)
+}
+```
 
-increments of/round to 15min
 
-getWeekly
-- 
+//create datasource.json list
+// data-source loadComponent into DOM
+// data-control component -> fetch data
+// pass that to index.updateUI
+// updateUI -> create list-item and add to DOM
+
+
+    <data-control data-url="http://somewhere" element="list"></data-control>
+
+        const data = fetch(dataset.url)
+         list.data = data
+        forof data {
+             list.appendchild(list-item)
+        }
+

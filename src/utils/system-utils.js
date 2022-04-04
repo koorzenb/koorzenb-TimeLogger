@@ -1,26 +1,12 @@
-import { Dates, DateType} from "./enums.js";
+import {Dates, DateType} from "./enums.js";
 
 /**
  * Formats and returns date
  */
- export function formattedDate(customDate = "") {
-        const date = new Date();
-        const enumDate = new Dates();     
-        const offset = date.getDay();      
-        const day = parseInt(customDate.substring(0,2)) || date.getDay();   // not using %7 - need actual date to complete on appendItem()
-        const month = parseInt(customDate.substring(2,4))-1 || date.getMonth();
-        return `${enumDate.get(DateType.WEEKDAY, day % 7)} ${enumDate.get(DateType.MONTH, month)} ${day}, ${customDate.substring(4,8) || date.getFullYear()}`; // cannot use date.getDay()
-}
-
-/**
- * Returns current week number of the year
- * @returns {number}
- */
- export function getWeek() {
+export function formattedDate() {
     const date = new Date();
-    const oneJan = new Date(date.getFullYear(),0,1);
-    const numberOfDays = Math.floor((date - oneJan) / (24 * 60 * 60 * 1000));
-    return Math.ceil(( date.getDay() + 1 + numberOfDays) / 7);
+    const enumDate = new Dates();
+    return `${enumDate.get(DateType.WEEKDAY, date.getDay())} ${enumDate.get(DateType.MONTH, date.getMonth())} ${date.getDay()}, ${date.getFullYear()}`;
 }
 
 /**
@@ -33,9 +19,9 @@ const events = [];
 export function registerEvent(element, event, callback) {
     element.addEventListener(event, callback);
     events.push({
-        element: element,
-        event: event,
-        callback: callback
+        element,
+        event,
+        callback
     });
 }
 
@@ -45,18 +31,45 @@ export function registerEvent(element, event, callback) {
  * @param {DOM Element} elements - element(s) to remove
  * @param {string} - event type
  */
-export function unregisterEvents(elements,event) {
-    if(elements == null || event == null || events[0] == null) return;
+export function unregisterEvents(elements, event) {
+    if (elements == null || event == null || events[0] == null) return;
 
     elements = Array.isArray(elements) === true ? elements : [elements];
 
     for (const item of events) {
-        if(item.element == elements && item.event == event){
+        if (item.element == elements && item.event == event) {
             item.element.removeEventListener(item.event, item.callback);
             item.callback = null;
             const index = events.indexOf(item);
-            events.splice(index,1);
+            events.splice(index, 1);
             break;
         }
     }
 }
+
+export function loadComponents(id) {
+    const template = createElement("template");
+    html = getHTML(id); //fetch? ?? if fileNotExist .html, then not templated
+    template.innerHTML = html;
+    target.appendChild(template);
+};
+
+export async function getHTML(id) {
+    // if html exist, fetch
+    let html;
+    try {
+        const path = `./src/webComponents/${id}/${id}.html`;
+        const response = await fetch(path);
+        html = await response.text();
+        return html;
+    } catch (error) {
+        console.info(`No html for ${id}`);
+    }
+};
+
+export const cloneNode = async (id) => {
+    const html = await getHTML(id);
+    const template = document.createElement("template");
+    template.innerHTML = html;
+    return template.content.cloneNode(true).firstChild;
+};

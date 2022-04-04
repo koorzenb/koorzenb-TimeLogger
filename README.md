@@ -1,5 +1,9 @@
-# TimeLogger
+# Training submission for Johan Rabie
+## Branch: project-11
 
-TimeLogging app for Rita to capture working hours
+### Details
+#### Design layout
+- <https://cdn.dribbble.com/users/1591610/screenshots/4426221/to-do_shot.jpg>
 
-Run "npm start" to launch app
+#### Full spec at
+- https://github.com/caperaven/training/blob/master/basic/11.Custom%20elements%20-%20project.md

@@ -6,10 +6,13 @@
 
 form {
   display: flex;
-  position: relative;
+  position: absolute;
+  right: 4rem;
+  bottom: 2rem;
   height: 3rem;
-  width: 11rem;
-  right: 1rem;
+  width: 16rem;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 button#addItem {
@@ -51,7 +54,6 @@ input {
   margin-right: 1rem;
   border-radius: 15%/50%;
   padding-left: 1rem;
-  width: 6rem;
   border: 1px solid gray;
 }
 
@@ -92,3 +94,6 @@ input:invalid:focus {
   box-shadow: 0px 3px 10px 3px rgba(221, 12, 64, 0.473);
 }
 
+input.hidden {
+  display: none;
+}

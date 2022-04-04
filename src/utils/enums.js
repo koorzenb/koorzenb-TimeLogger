@@ -1,6 +1,6 @@
 export const DateType = Object.freeze({
     MONTH: [ 'January', 'Febraury', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    WEEKDAY: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    WEEKDAY: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 })
 
 export class Dates {
@@ -16,12 +16,6 @@ export class Dates {
         this.dates[DateType.WEEKDAY] = null;
     }
 
-    /**
-     * 
-     * @param {*} type - DataType.x, eg DataType.WEEKDAY
-     * @param {*} index - index number in array
-     * @returns 
-     */
     get(type, index) {
         let date = this.dates[type][index];
         if (date == null) {
