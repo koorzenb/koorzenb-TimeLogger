@@ -1,7 +1,7 @@
 {
-  "name": "todolist-lite",
-  "version": "2.0.0",
-  "description": "ToDo List",
+  "name": "time-logger",
+  "version": "0.2.3",
+  "description": "TimeLogger",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -31,8 +31,6 @@
     "test": "test"
   },
   "dependencies": {
-    "core-js": "^3.21.1",
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "core-js": "^3.21.1"
   }
 }
