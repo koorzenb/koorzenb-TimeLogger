@@ -10,11 +10,11 @@ export class MyLocalStorage {
         this._title = newValue;
     }
 
-    // get data() {
+    // get allRecords() {
     //     return this._data ?? {};
     // }
 
-    // set data(newValue) {
+    // set allRecords(newValue) {
     //     this._data = newValue;
     // }
 
@@ -25,13 +25,12 @@ export class MyLocalStorage {
      */
     constructor(title, dataLocation) {
         title == null ? console.warn("No title set for localStorage") : this.title = title;
-        this.dataLocation = dataLocation;
         window.eventEmitter = new EventEmitter;     //TODO: move this out and cleanup
-        this.saveHandler = this._save.bind(this);
+        this.saveHandler = this.create.bind(this);
         window.eventEmitter.on("save-to-storage", this.saveHandler);
-        this.readHandler = this._read.bind(this);
+        this.readHandler = this.readAll.bind(this);
         window.eventEmitter.on("read-from-storage", this.readHandler);
-        this.clearHandler = this._clear.bind(this);
+        this.clearHandler = this.clear.bind(this);
         window.eventEmitter.on("clear-storage", this.clearHandler);
     }
 
@@ -49,28 +48,44 @@ export class MyLocalStorage {
     /**
      * Saves data to local storage
      */
-    async _save() {
-        localStorage.setItem(this.title, await this._getData());
+    async create(data) {
+        localStorage.setItem(this.title, data);
         console.log("saved");
     }
 
-    _read() {
-        return localStorage.getItem(this.title);
-    }
-
-    /**
-     * Retrieves data that is due to be saved 
-     * @returns data
-     */
-    async _getData() {
-        if (this.dataLocation == null) return;
-
-        const response = await fetch(this.dataLocation);
-        return await response.text();
-    }
-
-    _clear() {
+    clear() {
         localStorage.removeItem(this.title);
     }
 
+    /**
+     * ReadAll and filter by Id
+     * @param {number} id - id of record to read 
+     * @returns {object} - record
+     */
+    readById(id) {
+        const allRecords = this.readAll();
+        const filteredRecords = allRecords.filter(record => record.id === id);
+        return filteredRecords;
+    }
+
+    updateById(id, newValue) {
+        const allRecords = this.readAll();
+        const filteredRecords = allRecords.filter(record => record.id === id);
+        filteredRecords.description = newValue;
+        this.create(filteredRecords);
+    }
+
+    deleteById(id) {
+        const allRecords = this.readAll();
+        const filteredRecords = allRecords.filter(record => record.id !== id);
+        this.create(filteredRecords);
+    }
+
+    /**
+     * 
+     * @returns Fetch all data from local storage
+     */
+    readAll() {
+        return localStorage.getItem(this.title);
+    }
 }
