@@ -42,3 +42,9 @@ class loadComponents(id, target) {
              list.appendchild(list-item)
         }
 
+//saving
+addButton 
+    - push to data class property
+    - if empty, read from localStorage
+        - if emptr LS, create array and push, and save to LS
+            - else save to temp 
