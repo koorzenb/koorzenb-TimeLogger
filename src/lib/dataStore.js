@@ -1,10 +1,10 @@
-import {MyLocalStorage} from "./myLocalStorage";
-
-class DataStore extends MyLocalStorage {
+import {MyLocalStorage} from "./myLocalStorage.js";
+export class DataStore {
 
     get data() {
+
         if (this._data == null) {
-            this._data = this.readAll();
+            this._data = this._readAll();
         }
 
         return this._data;
@@ -15,25 +15,40 @@ class DataStore extends MyLocalStorage {
     }
 
     get idGenerator() {
-        this.idGenerator = this._idGenerator == null ? 0 : this._idGenerator++;
-        return this.idGenerator;
+        if (this._id == null) {
+            this._id = 0;
+        }
+        this._id++;
+        return this._id;
     }
 
     set idGenerator(newValue) {
         this._idGenerator = newValue;
     }
 
-
     constructor(title) {
         title == null ? console.warn("No title set for localStorage") : this.title = title;
+        this.localStorage = new MyLocalStorage();
+        this.localStorage.title = title;
+        this.updateByIdHandler = this._updateById.bind(this);
+        window.eventEmitter.on("update-by-id", this.updateByIdHandler);
+        this.createHandler = this._create.bind(this);
+        window.eventEmitter.on("create-record", this.createHandler);
     }
 
-    create(record) {
-        const id = this.idGenerator();
-        record.id = id;
+    dispose() {
+        this.title = null;
+        this.data = null;
+        this.idGenerator = null;
+    }
+
+    _create(record) {
+        record.id = this.idGenerator;
         const allRecords = this.data;
         allRecords.push(record);
         this.data = allRecords;
+        this.save();
+        console.info(`Created record with id = ${record.id}`);
     }
 
     /**
@@ -47,12 +62,13 @@ class DataStore extends MyLocalStorage {
         return filteredRecords;
     }
 
-    updateById(id, newValue) {
+    _updateById(id, newValue) {
         const filteredRecord = this.data.filter(record => record.id === id);
         const excludedRecord = this.data.filter(record => record.id !== id);
         filteredRecord = newValue;
         excludedRecord.push(filteredRecord);
         this.data = excludedRecord;
+        this.save();
     }
 
     deleteById(id) {
@@ -65,10 +81,10 @@ class DataStore extends MyLocalStorage {
      * @returns Fetch all data from local storage
      */
     _readAll() {
-        return MyLocalStorage.getItem(this.title);
+        return this.localStorage.getItem(this.title);
     }
 
-    _save() {
-        MyLocalStorage.setItem(this.title, this.data);
+    save() {
+        window.eventEmitter.emit("save-to-storage", this.data);
     }
 }
