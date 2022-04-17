@@ -5,6 +5,10 @@ import {DataStore} from "../../lib/dataStore.js";
 class customList extends HTMLElement {
 
     get data() {
+        if (this.dataLocation != null) {
+            const dataStore = new DataStore(this.dataLocation);
+            this._data = dataStore.data;
+        }
         return this._data;
     }
 
@@ -21,36 +25,32 @@ class customList extends HTMLElement {
     }
 
     async connectedCallback() {
-        if (this.dataLocation != null) {
-            const dataStore = new DataStore(this.dataLocation);
-            this.data = dataStore.data;
-        } else {
-            console.error("no dataLocation set for customList");
-        }
+        console.error("no dataLocation set for customList");
+    }
         this.renderHandler = this.renderList.bind(this);
-        window.eventEmitter = new EventEmitter;     //TODO: move this out and cleanup
-        window.eventEmitter.on("updated-data", this.renderHandler);
+window.eventEmitter = new EventEmitter;     //TODO: move this out and cleanup
+window.eventEmitter.on("updated-data", this.renderHandler);
     }
 
-    disconnectedCallback() {
-        window.eventEmitter.remove("updated-data");
-        this.renderHandler = null;
-        this.data = null;
-    }
+disconnectedCallback() {
+    window.eventEmitter.remove("updated-data");
+    this.renderHandler = null;
+    this.data = null;
+}
 
     async renderList() {
-        const clone = await cloneNode("customList");
-        const fragment = new DocumentFragment;
-        for (const key of Object.keys(this.data)) {
-            const listItem = document.createElement("list-item");
-            const entry = this.data[key];
-            listItem.description = entry.description;
-            listItem.date = entry.date; //formattedDate();
-            fragment.appendChild(listItem);
-        }
-        clone.appendChild(fragment);
-        this.appendChild(clone);
+    const clone = await cloneNode("customList");
+    const fragment = new DocumentFragment;
+    for (const key of Object.keys(this.data)) {
+        const listItem = document.createElement("list-item");
+        const entry = this.data[key];
+        listItem.description = entry.description;
+        listItem.date = entry.date; //formattedDate();
+        fragment.appendChild(listItem);
     }
+    clone.appendChild(fragment);
+    this.appendChild(clone);
+}
 
 }
 
