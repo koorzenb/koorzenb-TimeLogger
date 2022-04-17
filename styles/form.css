@@ -15,7 +15,7 @@ form {
   justify-content: flex-end;
 }
 
-button#addItem {
+button#add-item {
   position: relative;
   border-radius: 50%;
   width: 48px;
@@ -23,29 +23,29 @@ button#addItem {
   border: none;
 }
 
-button#addItem svg {
+button#add-item svg {
   fill: var(--blue);
   position: relative;
   top: -12px;
   left: -24px;
 }
 
-button#addItem:focus{
+button#add-item:focus {
   outline: none;
   cursor: pointer;
   box-shadow: 0px 3px 10px 3px var(--buttonShadow);
 }
 
-button#addItem:hover{
+button#add-item:hover {
   cursor: pointer;
   box-shadow: 0px 3px 10px 3px var(--buttonShadow);
 }
 
-button#addItem[hide]:hover {
+button#add-item[hide]:hover {
   cursor: default;
 }
 
-button#addItem:active {
+button#add-item:active {
   background-color: var(--darkblue);
   box-shadow: none;
 }
@@ -90,6 +90,7 @@ input:hover {
 input:invalid {
   border: 1px solid red;
 }
+
 input:invalid:focus {
   box-shadow: 0px 3px 10px 3px rgba(221, 12, 64, 0.473);
 }
