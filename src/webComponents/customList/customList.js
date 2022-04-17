@@ -1,5 +1,6 @@
 import {EventEmitter} from "../../lib/events.js";
 import {getHTML, formattedDate, cloneNode, registerEvent} from "../../utils/system-utils.js";
+import {DataStore} from "../../lib/dataStore.js";
 
 class customList extends HTMLElement {
 
@@ -11,12 +12,25 @@ class customList extends HTMLElement {
         this._data = newValue;
     }
 
+    get dataLocation() {
+        return this._dataLocation;
+    }
+
+    set dataLocation(newValue) {
+        this._dataLocation = newValue;
+    }
+
     async connectedCallback() {
+        if (this.dataLocation != null) {
+            const dataStore = new DataStore(this.dataLocation);
+            this.data = dataStore.data;
+        } else {
+            console.error("no dataLocation set for customList");
+        }
         this.renderHandler = this.renderList.bind(this);
         window.eventEmitter = new EventEmitter;     //TODO: move this out and cleanup
         window.eventEmitter.on("updated-data", this.renderHandler);
     }
-
 
     disconnectedCallback() {
         window.eventEmitter.remove("updated-data");

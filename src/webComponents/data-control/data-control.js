@@ -1,13 +1,17 @@
-import {getHTML, formattedDate, cloneNode, registerEvent} from "../../utils/system-utils.js";
+import {EventEmitter} from '../../lib/events.js';
 class DataControl extends HTMLElement {
 
     async connectedCallback() {
-        const response = await fetch(this.dataset.url);
-        const data = await response.text();
-        // const customList = document.createElement("custom-list");
+        //url
+        // const response = await fetch(this.dataset.url);
+        // const data = await response.text();
+
+        //localStorage
+        window.eventEmitter == null && (window.eventEmitter = new EventEmitter);
+        const location = this.dataset.location;
         const target = document.querySelector(this.dataset.target);
-        // customList.data = JSON.parse(data);
-        target.data = JSON.parse(data); // send data and move on
+
+        target.dataLocation = location;
         window.eventEmitter.emit("updated-data");
     }
 

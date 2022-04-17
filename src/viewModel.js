@@ -1,26 +1,54 @@
-import {DataStore} from './lib/dataStore.js';
 import {registerEvent, unregisterEvents} from './utils/system-utils.js';
 export class ViewModel {
 
     constructor() {
         console.log("viewModel started");
-        const dataStore = new DataStore("toDoApp");
-        this.addButton = document.getElementById("add-item");
-        registerEvent(this.addButton, "click", this.addItem.bind(this));
+        this.init();
     }
 
     dispose() {
         this.addButton = null;
         unregisterEvents(this.addButton, "click");
+        delete this.clickHandler;
+        delete this.itemTemplate;
+        delete this.formInput;
+        delete this.itemsList;
+    }
+
+    init() {
+        this.addButton = document.getElementById("add-item");
+        this.clickHandler = this.click.bind(this);
+        this.keydownHandler = this.keydown.bind(this);
+        this.formInput = document.querySelector("form input");
+        registerEvent(this.addButton, "click", this.clickHandler);
+        registerEvent(this.formInput, "keydown", this.keydownHandler);
+    }
+
+    /**
+ * Handles click event
+ * @param {*} event 
+ */
+    click(event) {
+        if (event.currentTarget.id == "addItem") {
+            this.formInput.classList.remove("hidden");
+        }
+    }
+
+    keydown(event) {
+        if (event.key != "Enter") return;
+        event.preventDefault();
+        this.addItem();
     }
 
     addItem() {
         event.preventDefault();
-        const item = document.getElementById("item-input").value;
+        const item = this.formInput.value;
         const itemObj = {
-            item: item,
+            description: item,
+            date: "30 Feb",
             completed: false
         };
         window.eventEmitter.emit("create-record", itemObj);
+
     }
 }
