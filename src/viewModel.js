@@ -25,8 +25,8 @@ export class ViewModel {
     }
 
     /**
- * Handles click event
- * @param {*} event 
+     * Handles click event
+     * @param {*} event 
  */
     click(event) {
         if (event.currentTarget.id == "addItem") {
@@ -49,6 +49,6 @@ export class ViewModel {
             completed: false
         };
         window.eventEmitter.emit("create-record", itemObj);
-
+        this.formInput.value = "";
     }
 }

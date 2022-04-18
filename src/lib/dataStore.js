@@ -49,6 +49,7 @@ export class DataStore {
         this.data = allRecords;
         this.save();
         console.info(`Created record with id = ${record.id}`);
+        window.eventEmitter.emit("updated-data");
     }
 
     /**

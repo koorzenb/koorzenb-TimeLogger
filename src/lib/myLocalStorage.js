@@ -45,6 +45,7 @@ export class MyLocalStorage {
      * Saves data to local storage
      */
     async create(data) {
+        this.clear();
         const dataString = JSON.stringify(data);
         localStorage.setItem(this.title, dataString);
     }

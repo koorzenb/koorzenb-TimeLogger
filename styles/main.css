@@ -9,3 +9,7 @@ h3#date-descriptor {
 ul {
   padding: 0;
 }
+
+custom-list {
+  display: block;
+}
