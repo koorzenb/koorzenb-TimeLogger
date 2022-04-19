@@ -94,4 +94,10 @@ export class DataStore {
     save() {
         window.eventEmitter.emit("save-to-storage", this.data);
     }
+
+    clearData() {
+        this.data = null;
+        delete this.data;
+        window.eventEmitter.emit("clear-storage");
+    };
 }

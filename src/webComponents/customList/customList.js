@@ -4,16 +4,15 @@ import {DataStore} from "../../lib/dataStore.js";
 
 class customList extends HTMLElement {
 
-    get data() {
-        if (this.dataLocation != null && this._data == null) {
-            this.dataStore = new DataStore(this.dataLocation);
-            this._data = this.dataStore.data;
+    get dataStoreData() {
+        if (this.dataLocation != null && this._dataStore == null) {
+            this._dataStore = new DataStore(this.dataLocation);
         }
-        return this._data || [];
+        return this._dataStore.data || [];
     }
 
-    set data(newValue) {
-        this._data = newValue;
+    set dataStoreData(newValue) {
+        this._dataStore.data = newValue;
     }
 
     get dataLocation() {
@@ -26,24 +25,24 @@ class customList extends HTMLElement {
 
     async connectedCallback() {
         this.renderHandler = this.renderList.bind(this);
-        window.eventEmitter = new EventEmitter;     //TODO: move this out and cleanup
+        window.eventEmitter == null && (window.eventEmitter = new EventEmitter);
         window.eventEmitter.on("updated-data", this.renderHandler);
     }
 
     disconnectedCallback() {
         window.eventEmitter.remove("updated-data");
         this.renderHandler = null;
-        this.data = null;
-        this.dataStore.dispose();
+        this.dataStoreData = null;
+        this._dataStore.dispose();
     }
 
     async renderList() {
         this.clearList();
         const clone = await cloneNode("customList");
         const fragment = new DocumentFragment;
-        for (const key of Object.keys(this.data)) {
+        for (const key of Object.keys(this.dataStoreData)) {
             const listItem = document.createElement("list-item");
-            const entry = this.data[key];
+            const entry = this.dataStoreData[key];
             listItem.description = entry.description;
             listItem.date = entry.date; //formattedDate();
             fragment.appendChild(listItem);
@@ -52,6 +51,10 @@ class customList extends HTMLElement {
         this.appendChild(clone);
     }
 
+    /**
+     * Clear UI list
+     * Intent is to clear only for rendering after updated data
+     */
     clearList() {
         while (this.lastChild) {
             this.removeChild(this.lastChild);
@@ -59,8 +62,7 @@ class customList extends HTMLElement {
     }
 
     clearData() {
-        this.data = [];
-        this.dataStore.data = null;
+        this._dataStore.clearData();
         window.eventEmitter.emit("updated-data");
     }
 }
