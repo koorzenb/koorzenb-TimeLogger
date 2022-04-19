@@ -1,5 +1,5 @@
 import {EventEmitter} from "../../lib/events.js";
-import {getHTML, formattedDate, cloneNode, registerEvent} from "../../utils/system-utils.js";
+import {cloneNode} from "../../utils/system-utils.js";
 import {DataStore} from "../../lib/dataStore.js";
 
 class customList extends HTMLElement {
