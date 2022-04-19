@@ -31,14 +31,13 @@ export class MyLocalStorage {
     }
 
     dispose() {
-        // this.title = null;
-        // this.data = null;
-        // window.eventEmitter.remove("clear-data", this.clearHandler);
-        // this.clearHandler = null;
-        // window.eventEmitter.remove("save-data", this.saveHandler);
-        // this.saveHandler = null;
-        // window.eventEmitter.remove("read-data", this.saveHandler);
-        // this.readHandler = null;
+        this.title = null;
+        window.eventEmitter.remove("clear-data", this.clearHandler);
+        this.clearHandler = null;
+        window.eventEmitter.remove("save-data", this.saveHandler);
+        this.saveHandler = null;
+        window.eventEmitter.remove("read-data", this.saveHandler);
+        this.readHandler = null;
     }
 
     /**

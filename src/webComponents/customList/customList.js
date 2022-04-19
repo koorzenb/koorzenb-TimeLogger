@@ -6,8 +6,8 @@ class customList extends HTMLElement {
 
     get data() {
         if (this.dataLocation != null && this._data == null) {
-            const dataStore = new DataStore(this.dataLocation);
-            this._data = dataStore.data;
+            this.dataStore = new DataStore(this.dataLocation);
+            this._data = this.dataStore.data;
         }
         return this._data || [];
     }
@@ -34,6 +34,7 @@ class customList extends HTMLElement {
         window.eventEmitter.remove("updated-data");
         this.renderHandler = null;
         this.data = null;
+        this.dataStore.dispose();
     }
 
     async renderList() {
@@ -57,6 +58,11 @@ class customList extends HTMLElement {
         }
     }
 
+    clearData() {
+        this.data = [];
+        this.dataStore.data = null;
+        window.eventEmitter.emit("updated-data");
+    }
 }
 
 customElements.define("custom-list", customList);

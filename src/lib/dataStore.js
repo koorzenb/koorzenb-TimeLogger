@@ -40,6 +40,12 @@ export class DataStore {
         this.title = null;
         this.data = null;
         this.idGenerator = null;
+        window.eventEmitter.remove("create-record, this.createHandler");
+        this.createHandler = null;
+        window.eventEmitter.remove("update-by-id", this.updateByIdHandler);
+        this.updateByIdHandler = null;
+        this.localStorage?.dispose();
+        this.localStorage = null;
     }
 
     _create(record) {

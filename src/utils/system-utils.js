@@ -73,3 +73,9 @@ export const cloneNode = async (id) => {
     template.innerHTML = html;
     return template.content.cloneNode(true).firstChild;
 };
+
+export const getParent = (element, selector) => {
+    if (element == null) return null;
+    if (element.matches(selector)) return element;
+    return getParent(element.parentElement, selector);
+};
