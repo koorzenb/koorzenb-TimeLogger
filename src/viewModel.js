@@ -1,4 +1,4 @@
-import {getParent, registerEvent, unregisterEvents} from './utils/system-utils.js';
+import {formattedDate, getParent, registerEvent, unregisterEvents} from './utils/system-utils.js';
 export class ViewModel {
 
     constructor() {
@@ -50,7 +50,7 @@ export class ViewModel {
         const item = this.formInput.value;
         const itemObj = {
             description: item,
-            date: "30 Feb",
+            date: formattedDate(),
             completed: false
         };
         window.eventEmitter.emit("create-record", itemObj);
