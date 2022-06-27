@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "ws --spa ./index.html",
+    "start": " ws --port 1101 --spa ./index.html",
     "render": "browser-sync start --server --files '**/*.css, **/*.html, **/*.js, !node_modules/**/*' --directory --port 7777 --browser \"C:\\Program Files\\Firefox Developer Edition\\firefox.exe\" --startPath ./index.html"
   },
   "keywords": [
